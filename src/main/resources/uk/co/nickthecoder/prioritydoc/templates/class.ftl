@@ -47,35 +47,66 @@
     
     <!-- Class Details -->
 
-    <@m.name doc=class/>
-    <#if class.superclassType()?? && (class.superclassType().qualifiedName() != "java.lang.Object")>
-      <span class="extends"> extends <@m.type type=class.superclassType()/></span>
-    </#if>
+    <h2>
+      <@m.name doc=class/>
+      
+      <#if (class.typeParameters()?size > 0)>
+        &lt;
+        <#assign comma=false>
+        <#list class.typeParameters() as typeParameter>
+          <#if comma> , </#if><#assign comma=true>${typeParameter}
+        </#list>
+        &gt;
+      </#if>
 
-    <#if (class.typeParameters()?size > 0)>
-      &lt;
-      <#assign comma=false>
-      <#list class.typeParameters() as typeParameter>
-        <#if comma> , </#if><#assign comma=true>${typeParameter}
-      </#list>
-      &gt;
-    </#if>
-
-  
+      <#if class.superclassType()?? && (class.superclassType().qualifiedName() != "java.lang.Object")>
+        <span class="extends"> extends <@m.type type=class.superclassType()/></span>
+      </#if>
+      
+      <#if (class.interfaces()?size > 0)>
+        <span class="extends"> implements
+        <#assign comma=false>
+        <#list class.interfaces() as interface>
+          <#if comma> , </#if><#assign comma=true><@m.type type=interface/>
+        </#list>
+        </span>
+      </#if>
+    </h2>
+          
     <div class="detail">
       <div class="comment">
         <@m.text tags=class.inlineTags()/>
       </div>
-      
+
       <@m.standardTags doc=class/>
+
+      <#if (knownSubinterfaces?? && knownSubinterfaces?size > 0)>
+        <h4>All Known Subinterfaces:</h4>
+        <#assign comma=false>
+        <#list knownSubinterfaces as subinterface>
+          <#if comma> , </#if><#assign comma=true><@m.type type=subinterface/>
+        </#list>
+      </#if>
+
+      <#if (knownSubclasses?? && knownSubclasses?size > 0)>
+        <#if class.isInterface()>
+          <h4>All Known Implementing Classes:</h4>
+        <#else>
+          <h4>All Known Subclasses:</h4>
+        </#if>
+        <#assign comma=false>
+        <#list knownSubclasses as subclass>
+          <#if comma> , </#if><#assign comma=true><@m.type type=subclass/>
+        </#list>
+      </#if>
+
     </div>
-      
       
     <!-- Static Fields -->
 
     <a id="staticFieldsAnchor" class="anchor"></a>
     <#if (combinedClass.staticFields?size > 0)>
-      <h2 id="staticFields">Static Fields</h2>
+      <h3 id="staticFields">Static Fields</h3>
       <@m.fields fields=combinedClass.staticFields/>
     </#if>
 
@@ -84,7 +115,7 @@
 
     <a id="staticMethodsAnchor" class="anchor"></a>
     <#if (combinedClass.staticMethods?size > 0)>
-      <h2 id="staticMethods">Static Methods</h2>
+      <h3 id="staticMethods">Static Methods</h3>
       <@m.methods methods=combinedClass.staticMethods useInitials=false/>  
     </#if>
 
@@ -93,7 +124,7 @@
 
     <a id="fieldsAnchor" class="anchor"></a>
     <#if (combinedClass.fields?size > 0)>
-      <h2 id="fields">Fields</h2>
+      <h3 id="fields">Fields</h3>
       <@m.fields fields=combinedClass.fields/>
     </#if>
 
@@ -102,11 +133,11 @@
     
     <a id="constructorsAnchor" class="anchor"></a>
     <#if (class.constructors()?size > 0)>
-      <h2 id="constructors">Constructors</h2>
+      <h3 id="constructors">Constructors</h3>
       
       <#list class.constructors() as constructor>
 
-        <div class="constructor priority1 contracted">
+        <div class="constructor <@m.priorityClass doc=constructor/> contracted">
           <span class="nowrap">
             <img src="${base}/images/constructor.png" class="icon"/>
             
@@ -117,6 +148,7 @@
               <#if comma>,</#if><#assign comma=true> <@m.type type=parameter.type()/>
             </#list>
             )
+            <@m.access doc=constructor/>
             <#if (constructor.commentText()?trim?length > 0)><span class="more">...</span></#if>
           </span>
           <div class="detail">
@@ -141,7 +173,7 @@
 
     <a id="methodsAnchor" class="anchor"></a>
     <#if (combinedClass.methods?size > 0)>
-      <h2 id="methods">Methods</h2>
+      <h3 id="methods">Methods</h3>
       <@m.methods methods=combinedClass.methods useInitials=true/>  
     </#if>
 
@@ -150,9 +182,9 @@
 
     <a id="innerClassesAnchor" class="anchor"></a>
     <#if (class.innerClasses()?size > 0)>
-      <h2 id="innerClasses">Inner Classes</h2>
+      <h3 id="innerClasses">Inner Classes</h3>
       <#list class.innerClasses() as innerClass>
-        <div class="innerClass priority1 contracted">
+        <div class="innerClass <@m.priorityClass doc=innerClass/> contracted">
           <img src="${base}/images/class.png" class="icon"/>
           <span class="name"><a href="${innerClass.name()?html}.html">${innerClass.name()?html}</a></span>
         </div>

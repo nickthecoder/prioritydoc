@@ -20,7 +20,7 @@
     
     <!-- Packages -->
     
-    <h2>Packages</h2>
+    <h3>Packages</h3>
     <a id="packagesAnchor" class="anchor"></a>
     <#list root.specifiedPackages() as package>
       <div class="package priority1 fixed nowrap">
@@ -52,7 +52,7 @@
     </div>
 
     <div class="byName">
-      <h2>By Name</h2>
+      <h3>By Name</h3>
       <@m.summary docs=sortedCombined useInitials=true/>
     </div>
     

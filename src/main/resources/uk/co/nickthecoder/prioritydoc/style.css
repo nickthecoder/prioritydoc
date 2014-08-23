@@ -13,38 +13,41 @@ a.button.selected { color: #000; }
 a.initial { background-color: #444; color: #eee; }
 #heading a.button { color: #222; }
 #heading a, #footing a { color: #ddd; }
-#jump { background-color: #444; background-color: rgba(68,68,68, 0.5); }
+#jump { color: #888; background-image: url("images/fadeBackground.png"); background-repeat: repeat-x; background-position: left bottom; }
 .initial { background: #fff; }
+a.button { border: 1px solid #888; }
 
 /* Layout */
 
 body { margin: 0; padding: 0; }
-#heading { position: fixed; top: 0; width: 100%; height: 5.5em; padding: 2px 1em; }
+#heading { position: fixed; top: 0; width: 100%; height: 6.5em; padding: 2px 1em; }
 #main { margin-top: 8em; padding: 1em; }
 #heading .buttons { float: right; text-align: right; margin-top: -4em; margin-right: 2em; }
 #footing { margin: 20em 0 0 0; padding: 0.5em 1em; text-align: center; }
-#jump { position: fixed; top: 5em; width: 100%; text-align: center; white-space: nowrap; }
-.anchor { display: block; position: relative; top: -8em; }
+#jump { position: fixed; top: 5em; height: 3.5em; width: 100%; text-align: center; white-space: nowrap; }
+.anchor { display: block; position: relative; top: -9em; }
 
 /* Tag Styles */
 
 body { font-family: Cantarell, verdana, arial, sans; font-size: 90%; }
-h1 { margin: 4px 0; padding: 0 }
-h2 { margin: 1em 0; padding: 0 }
-h3 { margin: 1em 0; padding: 0 }
-h4 { margin: 0.6em 0; padding: 0 }
+h1 { margin: 4px 0; padding: 0; font-weight: bold; font-size: 200%; }
+h2 { margin: 0 0; padding: 0; font-weight: normal; font-size: 110%; }
+h3 { margin: 1em 0; padding: 0; font-weight: bold; font-size: 120%; }
+h4 { margin: 0.6em 0; padding: 0; font-weight: bold; font-size: 110%; }
 a { text-decoration: none; font-weight: bold; }
 a.external { font-weight: normal; }
 code { font-family: Courier; }
 
 /* Class/ID Styles */
 
-.name { font-weight: bold; }
-a.button { font-size: 120%; border: 1px solid #666; border-radius: 5px; padding: 1px 6px; margin: 1px; }
+#content .name { font-weight: bold; font-size: 120%; }
+#content h2 .name { font-size: 150%; }
+a.button { font-size: 120%; border-radius: 5px; padding: 1px 6px; margin: 1px; }
 a.button.selected { font-size: 140%; }
 img.icon { vertical-align: -40%; padding-right: 0.5em;}
 a.icon img.icon { padding-right: 0; }
 h1 img.icon { vertical-align: -10%; padding-right: 0.2em;}
+img.access { vertical-align: middle;}
 h1 .extends { font-size: 60%; }
 #main .hide { display: none; }
 #jump img { vertical-align: -50%; }
@@ -57,8 +60,8 @@ ul.plain li { margin: 0.5em 0; padding: 0; }
 .heading1 { margin: 4px 0; line-height: 1.5em; white-space: nowrap; }
 .heading1 .index { vertical-align: -10%; padding: 0 1.2em 0 9px;}
 .expanded { border: 1px solid #888; border-radius: 5px; padding: 0.5em 0.5em; margin: 1em 0; }
-.expanded .name, .contracted .name, .fixed .name { font-size: 120%; }
 #footer .createdBy { font-size: 70%; text-align: right; }
+.aside { float: right; }
 
 /* Show/Hide */
 

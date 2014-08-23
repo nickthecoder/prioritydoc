@@ -21,7 +21,7 @@
 <#macro heading pretext="" doc="index">
   <div id="heading">
     <div class="heading1">
-      <a class="index" title="Index" href="${base}/index.html"><img alt="index" src="${base}/images/favicon.png"/></a> &nbsp; ${pretext} 
+      <a id="indexLink" title="Main Index (shift+I)" class="index" href="${base}/index.html"><img alt="index" src="${base}/images/favicon.png"/></a>${pretext} 
     </div>
     
     <h1 onclick="scrollToElement('#topAnchor')">
@@ -92,11 +92,11 @@
   <#else>
 
     <#if type.asTypeVariable()??>
-      ${type.toString()}<#t> <!--type-->
+      ${type.toString()?html}<#t> <!--type-->
     <#else>
       
       <#if type.asWildcardType()??>
-        ${type.toString()}<#t> <!--wildcard-->
+        ${type.toString()?html}<#t> <!--wildcard-->
       <#else>
 
         <#if type.asClassDoc()??>
@@ -104,7 +104,7 @@
           <@classType class=type.asClassDoc()/>
 
         <#else>
-          ${type.toString()}<#t>  <!--other-->
+          ${type.toString()?html}<#t>  <!--other-->
         </#if>
         
       </#if>
@@ -135,7 +135,7 @@
 
 <#macro packageName package>
 <#compress>
-  <span class="name"><a href="<@packageURL package=package/>">${package.name()?html}</a></span>
+  <span class="name"><a title="Package Index (shift+p)" id="packageIndexLink" href="<@packageURL package=package/>">${package.name()?html}</a></span>
 </#compress>
 </#macro>
 
@@ -152,18 +152,18 @@
     <#if seeTag.referencedMember()??>
 
       <#if ((seeTag.referencedClass()??) && (seeTag.referencedClass() == pageDoc))>
-        <a href="<@classURL class=seeTag.referencedClass()/>#${seeTag.referencedMemberName()}">
-          ${seeTag.referencedClass().name()}.${seeTag.referencedMemberName()?html}
-        </a>
+        <a class="seeMember" href="#${seeTag.referencedMemberName()?html}">${seeTag.referencedMemberName()?html}</a>
       <#else>
-        <a href="#${seeTag.referencedMemberName()?html}">${seeTag.referencedMemberName()?html}</a>
+        <a class="seeMember" href="<@classURL class=seeTag.referencedClass()/>#${seeTag.referencedMemberName()}">
+          ${seeTag.referencedClass().name()}met.${seeTag.referencedMemberName()?html}
+        </a>
       </#if>
             
     <#else>
 
       <#if seeTag.referencedClass()??>
 
-        <a href="<@classURL class=seeTag.referencedClass()/>">
+        <a class="seeClass" href="<@classURL class=seeTag.referencedClass()/>">
           ${seeTag.referencedClass().name()}
         </a>
 
@@ -190,6 +190,41 @@
 </#compress>
 </#macro>
 
+<#assign priorities={"1":1,"2":2,"3":3,"4":4,"5":5}>
+
+<#macro priorityClass doc lowestClass="">
+<#compress>
+  <#assign priority=0>
+  <#if (lowestClass=="") || (lowestClass == doc)>
+    <#list doc.tags("priority") as tag>
+        <#assign priority=(priorities[tag.text()])!0>
+    </#list>
+  </#if>
+  
+  <#if priority==0>
+    <#if (doc.isPrivate()!false) || (doc.tags("deprecated")?size > 0)>
+      <#assign priority=5>
+    <#else>
+      <#if (doc.isPackagePrivate()!false)>
+        <#assign priority=4>
+      <#else>
+        <#if (doc.isProtected()!false)>
+          <#assign priority=3>
+        <#else>
+          <#if (lowestClass=="") || (lowestClass == doc)>
+            <#assign priority=1>
+          <#else>
+            <#assign priority=2>
+          </#if>
+        </#if>
+      </#if>
+    </#if>
+  </#if>
+  
+  priority${priority}
+</#compress>
+</#macro>
+
 <#macro summary docs title="" type="" useInitials=false>
 
   <#if type!="">
@@ -197,20 +232,15 @@
   </#if>
   <#if (docs?size > 0)>
     <#if title != "">
-      <h2>${title}</h2>
+      <h3>${title}</h3>
     </#if>
     <#list docs as doc>
 
-      <#assign priority="1">
-      <#list doc.tags("priority") as tag>
-          <#assign priority="${tag.text()}">
-      </#list>
-      
       <#if useInitials>
         <@initialAnchor doc=doc/>
       </#if>
 
-      <div class="${type} fixed priority${priority?html} nowrap">
+      <div class="${type} fixed <@priorityClass doc=doc/> nowrap">
         <@icon doc=doc/>
         <span class="name"><a href="<@classURL class=doc/>">${doc.name()?html}</a></span>
         <#if (doc.firstSentenceTags()?size > 0)>
@@ -281,19 +311,19 @@
 <#macro fields fields>
 
   <#list fields as field>
-    <#assign priority="1">
-    <#list field.tags("priority") as tag>
-        <#assign priority="${tag.text()}">
-    </#list>
-    <div class="field priority${priority?html} contracted">
+
+    <div class="field <@priorityClass doc=field lowestClass=class/> contracted">
+      <a class="anchor" id="${field.name()}"></a>
       <span class="nowrap">
         <img src="${base}/images/<#if field.isStatic()>static_</#if>field.png" class="icon"/>
-        
         <@name doc=field/>
         ( <@type type=field.type()/> )
+        <@access doc=field/>
         <#if (field.commentText()?trim?length > 0)><span class="more">...</span></#if>
       </span>
           
+      <@definedIn ele=field/>
+      
       <div class="detail">
         <div class="comment">
           ${field.commentText()}
@@ -317,19 +347,25 @@
   </#if>
 </#macro>
 
+
+<#macro definedIn ele>
+  <#if ele.containingClass() != class>
+    <div class="aside">
+      (defined in <@type type=ele.containingClass()/>)
+    </div>
+  </#if>
+</#macro>
+
 <#macro methods methods useInitials>
 
   <#list methods as method>
-    <#assign priority="1">
-    <#list method.tags("priority") as tag>
-        <#assign priority="${tag.text()}">
-    </#list>
 
     <#if useInitials>
       <@initialAnchor doc=method/>
     </#if>
 
-    <div class="method priority${priority} contracted">
+    <div class="method <@priorityClass doc=method lowestClass=class/> contracted">
+      <a class="anchor" id="${method.name()}${removeGenerics(method.signature())}"></a>
       <span class="nowrap">
         <img src="${base}/images/<#if method.isStatic()>static_</#if>method.png" class="icon"/>
       
@@ -341,8 +377,11 @@
         </#list>
         )
         -> <@type type=method.returnType()/>
+        <@access doc=method/>
         <#if (method.commentText()?trim?length > 0)><span class="more">...</span></#if>
       </span>
+      
+      <@definedIn ele=method/>
       
       <div class="detail">
 
@@ -375,6 +414,21 @@
 
 </#macro>
 
+<#macro access doc>
+<#compress>
+  <#if doc.isPublic()>
+    <img class="access" alt="public" title="public" src="${base}/images/public.png"/>
+  <#else>
+    <#if doc.isProtected()>
+      <img class="access" alt="protected" title="protected" src="${base}/images/protected.png"/>
+    <#else>
+      <#if doc.isPrivate()>
+        <img class="access" alt="private" title="private" src="${base}/images/private.png"/>
+      </#if>
+    </#if>
+  </#if>
+</#compress>
+</#macro>
 
 <#macro indexJump>
  <div id="jump">
@@ -409,7 +463,7 @@
   </script>
 
   <div id="footing">
-    <a href="${base}/index.html">${options.title} Index</a>
+    <a title="Main Index (shift+I)" href="${base}/index.html">${options.title} Index</a>
     <div class="createdBy">
       Created by <a href="http://nickthecoder.co.uk/software/view/PriorityDoc">PriorityDoc</a> Java Doclet
     </div>

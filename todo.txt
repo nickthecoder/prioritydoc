@@ -1,59 +1,29 @@
-
-
-Show class hierarchy
-  super class
-  implementing interfaces
-  known sub-classes
-
-
-For See links to work, need an anchor for each method and field.
-    Note, that the "initial letter" anchors need to be qualified, so they don't clash with field names.
-
-
-
-Generate default priorites for each method based on :
-    public=1 protected=3 package=4 private=5 depricated=5
-    
-    Super methods are capped at 3, unless otherwise stated.
-      @methodpriority 1 setText foo*
-      @methodpriority 2 bar get* set*
-    Ditto for fieldpriority
-
-    Inner classes have a lower priority by default.
-
-Add a README, and gpl
-
 At the end
 ==========
-
-Test Enums
-  Works, but needs retesting when priority has been implemented
 
 Test Generics
     Does <T extends MyClass> work, how about <? extends T>
 
-Test that classes have priority (i.e. can be hidden on the package index and index).
-
 Test all forms of "see", and all forms of {@link}
-  It currently puts the label AFTER the link, but it shouldn't.
 
 Use it to generate itchy's javadocs
     Just temporarily ad-hoc, then permanently adding PriorityDoc to the project and changing the ant build.
 
-Uncomment the "if" which prevents resource files from being overwritten.
-
 Publish the generated Maven "site" to /public/prioritydoc
+
+
+
 
 Later
 =====
     
+
+    
 Add link icons, which change the url to point to that resource.
     e.g. #myMethod()
     It may also need to set the priority.
-
   
 Substitute a type variable with its actual type when subclassing. (As in ExplositionBuilder).
-
 
 Make "jump to" shortcuts more complex.
     X to jump to methods beginning with X

@@ -2,6 +2,8 @@ var cookiesEnabled = false;
 var initialPriority = 2;
 
 $( document ).ready(function() {
+    $(window).keydown( onKeydown );
+
     var i;
     for ( i = 1; i < 6; i ++ ) {
         attachPriorityButton(i);
@@ -10,8 +12,10 @@ $( document ).ready(function() {
     
     $( "div.contracted" ).on( "click", expand );
     $( "div.expanded" ).on( "click", contract );
-    
-    $(window).keydown( onKeydown );
+
+    if (window.location.hash) {
+        expandAndShow(window.location.hash.substring(1));
+    }          
 });
 
 function scrollToElement(selector)
@@ -25,6 +29,20 @@ function onKeydown(e)
     var code = e.which || e.keyCode;
     var letter = String.fromCharCode(code);
 
+    if (e.shiftKey) {
+        // shift+I for the main index
+        if (letter == "I") {
+            document.location = $("#indexLink").attr('href');
+            return false;
+        }
+        // shift+P for the package index
+        if (letter == "P") {
+            document.location = $("#packageIndexLink").attr('href');
+            return false;
+        }
+    }
+
+
     if (e.ctrlKey) {
         return true;
     }
@@ -33,6 +51,7 @@ function onKeydown(e)
       scrollToElement('#' + letter );
       return false;
     }
+    
 
     switch ( code )
     {
@@ -66,6 +85,20 @@ function onKeydown(e)
         default:
             break;
     }
+}
+
+function expandAndShow( id )
+{
+    var ele = $(document.getElementById(id)); // jquery doesn't like ids such as "myMethod()".
+    
+    $(ele).closest(".contracted").off( "click" ).on( "click", contract ).removeClass( "contracted" ).addClass( "expanded" );
+    var i;
+    for ( i = currentPriority + 1; i < 6; i ++ ) {
+        if (ele.closest(".priority" + i).length > 0) {
+            setPriority( i );
+        }
+    } 
+    scrollToElement( ele );
 }
 
 function expand( e )
@@ -103,9 +136,18 @@ function contractAll()
     $('.expanded').off( "click" ).on( "click", expand ).removeClass( "expanded" ).addClass( "contracted" );
 }
 
+var currentPriority = 0;
+
+function setPriority( priority )
+{
+    $( "#priority" + priority + "Button" ).trigger("click");
+}
+
 function attachPriorityButton( i )
 {
     $( "#priority" + i + "Button" ).on( "click", function() {
+
+        currentPriority = i;
 
         $( "#heading .buttons a" ).removeClass("selected");
         var j;
@@ -139,6 +181,10 @@ function showByCategory()
 
 function createInitials( initials )
 {
+    if ( initials.length < 2) {
+        return;
+    }
+    
     var i;
     var previous = null;
     

@@ -12,7 +12,7 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-    
+
 package uk.co.nickthecoder.prioritydoc;
 
 import java.io.File;
@@ -61,9 +61,17 @@ public class Generator
     
     protected Configuration cfg;
     
-    protected File outputDirectory;
-    
     protected String filenameSuffix = ".html";
+    
+    /**
+     * Maps a fully qualified class name to the set of classes that extend/implement it.
+     */
+    protected Map<String,Set<ClassDoc>> knownSubclasses;
+
+    /**
+     * Maps a fully qualified interface name to the set of classes that extend it.
+     */
+    protected Map<String,Set<ClassDoc>> knownSubinterfaces;
     
     /**
      * Create a Generator
@@ -74,7 +82,6 @@ public class Generator
     {
         this.root = root;
         this.options = options;
-        this.outputDirectory = new File(".");
         
         cfg = new Configuration();
 
@@ -110,7 +117,7 @@ public class Generator
     public File getDirectory( PackageDoc packageDoc )
     {
         String path = packageDoc.name().replace('.', File.separatorChar );
-        File file = new File( this.outputDirectory, path );
+        File file = new File( this.options.destinationDirectory, path );
         return file;
     }
     
@@ -131,9 +138,62 @@ public class Generator
     public void generate()
         throws Exception
     {
+        cacheKnownHeirarchy();
+    
         generateRoot();
         generatePackages(root.specifiedPackages());
         generateClasses(root.classes());
+    }
+
+    /**
+     * Goes through every class, and discovers all of their subclasses, and implemented interfaces,
+     * adding them to a collection, so that the relationships can be discovered in the opposite
+     * direction. i.e. to find all know sub-classes for a given class.
+     */
+    protected void cacheKnownHeirarchy()
+    {
+        this.knownSubclasses = new HashMap<String,Set<ClassDoc>>();
+        this.knownSubinterfaces = new HashMap<String,Set<ClassDoc>>();
+
+        for (ClassDoc classDoc : this.root.classes())
+        {
+            for (ClassDoc superDoc = classDoc.superclass(); superDoc != null; superDoc = superDoc.superclass() ) {
+                if (! superDoc.isIncluded()) {
+                    break;
+                }
+                cacheKnownHeirarchy( classDoc, superDoc );
+
+                for (ClassDoc superInterface : superDoc.interfaces())
+                {
+                    if (! superInterface.isIncluded()) {
+                        break;
+                    }
+                    cacheKnownHeirarchy( classDoc, superInterface );
+                }
+            }
+            
+            for (ClassDoc superInterface : classDoc.interfaces())
+            {
+                if (! superInterface.isIncluded()) {
+                    break;
+                }
+                cacheKnownHeirarchy( classDoc, superInterface );
+            }
+        }
+    }
+
+    protected void cacheKnownHeirarchy( ClassDoc classDoc, ClassDoc superDoc )
+    {
+        String name = superDoc.name();
+        
+        Map<String,Set<ClassDoc>> collection = classDoc.isInterface() ? this.knownSubinterfaces : this.knownSubclasses;
+
+        Set<ClassDoc> subclasses = collection.get( name );
+        if ( subclasses == null ) {
+            subclasses = new TreeSet<ClassDoc>( NameComparator.instance );
+            collection.put(name,subclasses);
+        }
+        subclasses.add( classDoc );
     }
 
     /**
@@ -143,17 +203,17 @@ public class Generator
     protected void generateRoot()
         throws Exception
     {
-        this.outputDirectory.mkdirs();
+        new File( this.options.destinationDirectory ).mkdirs();
         
         for (String resourcePath : getFixedResourcesPaths()) {
-            File destination = new File( this.outputDirectory, resourcePath );
+            File destination = new File( this.options.destinationDirectory, resourcePath );
 
-            //if (! destination.exists() ) {
+            if ( this.options.overwriteResources || ! destination.exists() ) {
                 URL url = getResource( resourcePath );
                 File parent = destination.getParentFile();
                 parent.mkdirs();
                 copy( url, destination );
-            //}
+            }
         }
         
 
@@ -188,8 +248,8 @@ public class Generator
             }
         }
 
-        generate( "index.ftl", root, new File( this.outputDirectory, "index" + this.filenameSuffix ) );
-        generate( "package-list.ftl", root, new File( this.outputDirectory, "package-list" ) );
+        generate( "index.ftl", root, new File( this.options.destinationDirectory, "index" + this.filenameSuffix ) );
+        generate( "package-list.ftl", root, new File( this.options.destinationDirectory, "package-list" ) );
     }
 
     /**
@@ -270,13 +330,19 @@ public class Generator
         destination.getParentFile().mkdirs();
         
         Map<String,Object> combinedMap = new HashMap<String,Object>();
+        
         combineMethods( combinedMap, classDoc );
         combineFields( combinedMap, classDoc );
 
         root.put("combinedClass", combinedMap);
-
+        root.put("knownSubclasses", this.knownSubclasses.get( classDoc.name() ) );
+        root.put("knownSubinterfaces", this.knownSubinterfaces.get( classDoc.name() ) );
+        
         generate( "class.ftl", root, destination );
   	}    
+
+    Map<String, List<MethodDoc>> methodsByName;
+    Map<String, List<MethodDoc>> staticMethodsByName;
 
     /**
      * Combines the methods from a class with those from its super classes (except Object).
@@ -288,28 +354,12 @@ public class Generator
      * (excluding Object) have methods.
      * @priority 3
      */
-    protected void combineMethods( Map<String,Object> root, ClassDoc classDoc )
+    protected void combineMethods( Map<String,Object> root, ClassDoc currentClassDoc )
     {
-        Map<String, List<MethodDoc>> methodsByName = new HashMap<String,List<MethodDoc>>();
-        Map<String, List<MethodDoc>> staticMethodsByName = new HashMap<String,List<MethodDoc>>();
-            
-        ClassDoc currentClassDoc = classDoc;
-        while ((currentClassDoc != null) && (! currentClassDoc.qualifiedName().equals("java.lang.Object"))) {
+        Map<String,List<MethodDoc>> methodsByName = new HashMap<String,List<MethodDoc>>();
+        Map<String,List<MethodDoc>> staticMethodsByName = new HashMap<String,List<MethodDoc>>();
         
-            for ( MethodDoc methodDoc : currentClassDoc.methods() ) {
-                if (methodDoc.isPrivate() && (classDoc != currentClassDoc) ) {
-                    continue;
-                }
-                
-                if (methodDoc.isStatic()) {
-                    addMethod( staticMethodsByName, methodDoc );
-                } else {
-                    addMethod( methodsByName, methodDoc );
-                }
-            }
-            
-            currentClassDoc = currentClassDoc.superclass();
-        }
+        combineMethods2( methodsByName, staticMethodsByName, currentClassDoc, false );
         
         List<MethodDoc> methodDocs = new ArrayList<MethodDoc>();
         for ( List<MethodDoc> l : methodsByName.values() ) {
@@ -325,6 +375,42 @@ public class Generator
         
         root.put("methods", methodDocs);
         root.put("staticMethods", staticMethodDocs);
+    }    
+
+    protected void combineMethods2(
+        Map<String,List<MethodDoc>> methodsByName,
+        Map<String,List<MethodDoc>> staticMethodsByName,
+        ClassDoc currentClassDoc,
+        boolean isSuper )
+    {
+        // Exit the recursion when we get to the top of the hierarchy.
+        if ((currentClassDoc == null) || (currentClassDoc.qualifiedName().equals("java.lang.Object"))) {
+            return;
+        }
+        
+        for ( MethodDoc methodDoc : currentClassDoc.methods() ) {
+            // Ignore inherrited private methods
+            if (methodDoc.isPrivate() && (isSuper) ) {
+                continue;
+            }
+            
+            if (methodDoc.isStatic()) {
+                addMethod( staticMethodsByName, methodDoc );
+            } else {
+                addMethod( methodsByName, methodDoc );
+            }
+        }
+        
+        if (currentClassDoc.isInterface()) {
+            // Add ALL of the super interfaces declared methods
+            for ( ClassDoc inter : currentClassDoc.interfaces() ) {
+                combineMethods2( methodsByName, staticMethodsByName, inter, true );
+            }
+        } else {
+            // Add the super classes methods
+            combineMethods2( methodsByName, staticMethodsByName, currentClassDoc.superclass(), true );
+        }
+        
     }
 
     /**
@@ -462,6 +548,10 @@ public class Generator
         result.add("images/contract.png");
         result.add("images/index.png");
         result.add("images/favicon.png");
+        result.add("images/fadeBackground.png");
+        result.add("images/public.png");
+        result.add("images/protected.png");
+        result.add("images/private.png");
         result.add("jquery-2.1.1.min.js");
         result.add("jquery-ui.min.js");
         result.add("prioritydoc.js");
@@ -485,13 +575,16 @@ public class Generator
         map.put( "base", "." );
         map.put( "root", this.root );
         map.put( "options", this.options );
+        map.put( "removeGenerics", RemoveGenerics.instance );
         
         return map;
     }
+
     
     protected void generate( String templateName, Map<String,Object> modelRoot, File destination )
       throws Exception
     {
+        
         Writer out = new OutputStreamWriter(new FileOutputStream(destination));
         try {      
             Template template = cfg.getTemplate( templateName );

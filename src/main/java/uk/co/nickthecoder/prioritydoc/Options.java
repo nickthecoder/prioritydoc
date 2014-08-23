@@ -28,6 +28,11 @@ import com.sun.javadoc.DocErrorReporter;
 public class Options
 {
     /**
+     * Command line argument -d
+     */
+    public String destinationDirectory = ".";
+
+    /**
      * Maps the name of a package to the base url for its javadocs.
      */
     protected Map<String,String> linkedPackages;
@@ -42,17 +47,28 @@ public class Options
      */
     public boolean useCookies = false;
     
+    /**
+     * Should resources (such as .cc and .js files) overwrite existing files?
+     */
+    public boolean overwriteResources = false;
     
+    /**
+     * @see PriorityDoc#optionLength(String)
+     */
     public int optionLength(String option)
     {
     
-        if (option.equals("-link")) {
+        if (option.equals("-d")) {
+            return 2;
+        } else if (option.equals("-link")) {
             return 2;
         } else if (option.equals("-linkoffline")) {
             return 3;
         } else if ( option.equals("-title") || option.equals("-windowTitle") ) {
             return 2;
         } else if ( option.equals("-usecookies" ) ) {
+            return 1;
+        } else if ( option.equals("-overwriteresources" ) ) {
             return 1;
         }
         return 0;
@@ -70,7 +86,9 @@ public class Options
                 continue;
             }
             
-            if ( name.equals("-link") ) {
+            if ( name.equals("-d") ) {
+                this.destinationDirectory = option[1];
+            } else if ( name.equals("-link") ) {
                 link( option[1] );
             } else if ( name.equals("-linkoffline") ) {
                 linkOffline( option[1], option[2] );
@@ -78,10 +96,15 @@ public class Options
                 this.title = option[1];
             } else if ( name.equals("-usecookies") ) {
                 this.useCookies = true;
+            } else if ( name.equals("-overwriteresources") ) {
+                this.overwriteResources = true;
             }
         }
     }
-    
+  
+    /**
+     * @see PriorityDoc#validOptions(String[][],DocErrorReporter)
+     */
     public boolean valid(String[][] options, DocErrorReporter reporter)
     {
         return true;
@@ -127,15 +150,20 @@ public class Options
     {
         return this.linkedPackages.get( packageName );
     }
-    
+
     /**
      * Simple Getter
+     * @see #title
      */
     public String getTitle()
     {
         return title;
     }
     
+    /**
+     * Simple getter
+     * @see #useCookies
+     */
     public boolean getUseCookies()
     {
         return this.useCookies;

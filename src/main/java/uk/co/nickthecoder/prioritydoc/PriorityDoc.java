@@ -42,14 +42,19 @@ public class PriorityDoc
         return LanguageVersion.JAVA_1_5;
     }
     
+    /**
+     * @see Options#optionLength(String)
+     */
     public static int optionLength(String option)
     {
         return options.optionLength( option );
     }
     
+    /**
+     * @see Options#valid(String[][],DocErrorReporter)
+     */
     public static boolean validOptions(String[][] opts, DocErrorReporter reporter)
     {
-        System.out.println( "Valid options?" );
         return PriorityDoc.options.valid( opts, reporter );
     }
     
