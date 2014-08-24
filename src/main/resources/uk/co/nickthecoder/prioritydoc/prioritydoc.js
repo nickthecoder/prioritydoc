@@ -8,7 +8,7 @@ $( document ).ready(function() {
     for ( i = 1; i < 6; i ++ ) {
         attachPriorityButton(i);
     }
-    $( "#priority" + initialPriority + "Button" ).trigger( "click" );
+    $( "#prioritydoc_priority" + initialPriority + "Button" ).trigger( "click" );
     
     $( "div.contracted" ).on( "click", expand );
     $( "div.expanded" ).on( "click", contract );
@@ -32,12 +32,12 @@ function onKeydown(e)
     if (e.shiftKey) {
         // shift+I for the main index
         if (letter == "I") {
-            document.location = $("#indexLink").attr('href');
+            document.location = $("#prioritydoc_indexLink").attr('href');
             return false;
         }
         // shift+P for the package index
         if (letter == "P") {
-            document.location = $("#packageIndexLink").attr('href');
+            document.location = $("#prioritydoc_packageIndexLink").attr('href');
             return false;
         }
     }
@@ -48,7 +48,7 @@ function onKeydown(e)
     }
 
     if ( (code > 64) && (code < 91) ) {
-      scrollToElement('#' + letter );
+      scrollToElement('#prioritydoc_initial_' + letter );
       return false;
     }
     
@@ -68,19 +68,19 @@ function onKeydown(e)
     switch ( letter )
     {
         case '1':
-            $( "#priority1Button" ).trigger( "click" );
+            $( "#prioritydoc_priority1Button" ).trigger( "click" );
             return false;
         case '2':
-            $( "#priority2Button" ).trigger( "click" );
+            $( "#prioritydoc_priority2Button" ).trigger( "click" );
             return false;
         case '3':
-            $( "#priority3Button" ).trigger( "click" );
+            $( "#prioritydoc_priority3Button" ).trigger( "click" );
             return false;
         case '4':
-            $( "#priority4Button" ).trigger( "click" );
+            $( "#prioritydoc_priority4Button" ).trigger( "click" );
             return false;
         case '5':
-            $( "#priority5Button" ).trigger( "click" );
+            $( "#prioritydoc_priority5Button" ).trigger( "click" );
             return false;
         default:
             break;
@@ -140,16 +140,16 @@ var currentPriority = 0;
 
 function setPriority( priority )
 {
-    $( "#priority" + priority + "Button" ).trigger("click");
+    $( "#prioritydoc_priority" + priority + "Button" ).trigger("click");
 }
 
 function attachPriorityButton( i )
 {
-    $( "#priority" + i + "Button" ).on( "click", function() {
+    $( "#prioritydoc_priority" + i + "Button" ).on( "click", function() {
 
         currentPriority = i;
 
-        $( "#heading .buttons a" ).removeClass("selected");
+        $( "#prioritydoc_heading .buttons a" ).removeClass("selected");
         var j;
         for (j = 1; j < 6; j ++ ) {
             if ( j > i ) {
@@ -158,9 +158,9 @@ function attachPriorityButton( i )
                 $('.priority' + j).removeClass("hide");
             }
         }
-        $( '#priority' + i + 'Button' ).addClass("selected");
+        $( '#prioritydoc_priority' + i + 'Button' ).addClass("selected");
         
-        $( '#hiddenCount' ).html( $('.hide').length );
+        $( '#prioritydoc_hiddenCount' ).html( $('.hide').length );
         
         if ( cookiesEnabled ) {
             document.cookie="prioritydoc_priority=" + i + "; path=/";
@@ -196,7 +196,7 @@ function createInitials( initials )
                 $('<span>', {
                     text: String.fromCharCode(j),
                     "class": "unused",
-                }).appendTo('#initials');
+                }).appendTo('#prioritydoc_initials');
             }
         }
         previous = initial;
@@ -210,9 +210,9 @@ function createInitial( initial )
         "class": "initial button",
         text: initial,
         title: 'Jump to : ' + initial + ' (shortcut ' + initial + ')',
-        href: '#_initial_' + initial,
-        click: function() { showByName(); scrollToElement('#_initial_' + initial ); return false; }
-    }).appendTo('#initials');
+        href: '#prioritydoc_initial_' + initial,
+        click: function() { showByName(); scrollToElement('#prioritydoc_initial_' + initial ); return false; }
+    }).appendTo('#prioritydoc_initials');
 }
 
 function enableCookies()

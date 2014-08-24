@@ -11,17 +11,17 @@
   
   <@m.indexJump/>
     
-  <div id="main">
-  <div id="content">
+  <div id="prioritydoc_main">
+  <div id="prioritydoc_content">
   
     <!-- Template Details -->
 
-    <a id="topAnchor" class="anchor"></a>
+    <a id="prioritydoc_topAnchor" class="anchor"></a>
     
     <!-- Packages -->
     
     <h3>Packages</h3>
-    <a id="packagesAnchor" class="anchor"></a>
+    <a id="prioritydoc_packagesAnchor" class="anchor"></a>
     <#list root.specifiedPackages() as package>
       <div class="package priority1 fixed nowrap">
         <img src="${base}/images/package.png" class="icon"/>

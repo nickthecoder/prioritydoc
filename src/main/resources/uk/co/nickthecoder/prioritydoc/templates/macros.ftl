@@ -19,9 +19,9 @@
 </#macro>
 
 <#macro heading pretext="" doc="index">
-  <div id="heading">
+  <div id="prioritydoc_heading">
     <div class="heading1">
-      <a id="indexLink" title="Main Index (shift+I)" class="index" href="${base}/index.html"><img alt="index" src="${base}/images/favicon.png"/></a>${pretext} 
+      <a id="prioritydoc_indexLink" title="Main Index (shift+I)" class="index" href="${base}/index.html"><img alt="index" src="${base}/images/favicon.png"/></a>${pretext} 
     </div>
     
     <h1 onclick="scrollToElement('#topAnchor')">
@@ -29,15 +29,15 @@
       <@m.name doc=doc/>
     </h1>
     <div class="buttons">
-      <div class="above"><span id="hiddenCount">0</span> hidden item(s)</div>
-      <img id="contractButton" class="icon" src="${base}/images/contract.png" alt="-" title="Contract (shortcut -)" onClick="contractAll();return false;">
-      <img id="expandButton" class="icon" src="${base}/images/expand.png" alt="+" title="Expand (shortcut +)" onClick="expandAll();return false;">
+      <div class="above"><span id="prioritydoc_hiddenCount">0</span> hidden item(s)</div>
+      <img id="prioritydoc_contractButton" class="icon" src="${base}/images/contract.png" alt="-" title="Contract (shortcut -)" onClick="contractAll();return false;">
+      <img id="prioritydoc_expandButton" class="icon" src="${base}/images/expand.png" alt="+" title="Expand (shortcut +)" onClick="expandAll();return false;">
     
-      <a id="priority1Button" class="button priority1" title="Priority 1. Hide 2, 3, 4 and 5 (shortcut 1)">1</a>
-      <a id="priority2Button" class="button priority2" title="Priority 2. Hide 3, 4 and 5 (shortcut 2)">2</a>
-      <a id="priority3Button" class="button priority3" title="Priority 3. Hide 4 and 5 (shortcut 3)">3</a>
-      <a id="priority4Button" class="button priority4" title="Priority 4. Hide 5 (shortcut 4)" >4</a>
-      <a id="priority5Button" class="button priority5 vital" title="Priority 5. Show Everything (shortcut 5)">All</a>
+      <a id="prioritydoc_priority1Button" class="button priority1" title="Priority 1. Hide 2, 3, 4 and 5 (shortcut 1)">1</a>
+      <a id="prioritydoc_priority2Button" class="button priority2" title="Priority 2. Hide 3, 4 and 5 (shortcut 2)">2</a>
+      <a id="prioritydoc_priority3Button" class="button priority3" title="Priority 3. Hide 4 and 5 (shortcut 3)">3</a>
+      <a id="prioritydoc_priority4Button" class="button priority4" title="Priority 4. Hide 5 (shortcut 4)" >4</a>
+      <a id="prioritydoc_priority5Button" class="button priority5 vital" title="Priority 5. Show Everything (shortcut 5)">All</a>
     </div>
   </div>
 </#macro>
@@ -135,7 +135,7 @@
 
 <#macro packageName package>
 <#compress>
-  <span class="name"><a title="Package Index (shift+p)" id="packageIndexLink" href="<@packageURL package=package/>">${package.name()?html}</a></span>
+  <span class="name"><a title="Package Index (shift+p)" id="prioritydoc_packageIndexLink" href="<@packageURL package=package/>">${package.name()?html}</a></span>
 </#compress>
 </#macro>
 
@@ -228,7 +228,7 @@
 <#macro summary docs title="" type="" useInitials=false>
 
   <#if type!="">
-    <a id="${type}Anchor" class="anchor"></a>
+    <a id="prioritydoc_${type}Anchor" class="anchor"></a>
   </#if>
   <#if (docs?size > 0)>
     <#if title != "">
@@ -343,7 +343,7 @@
   <#if currentInitial != previousInitial>
       <#assign previousInitial = currentInitial>
       <#assign usedInitials = usedInitials + currentInitial/>
-      <a id="_initial_${currentInitial?html}" class="anchor"></a>
+      <a id="prioritydoc_initial_${currentInitial?html}" class="anchor"></a>
   </#if>
 </#macro>
 
@@ -462,7 +462,7 @@
 </#macro>
 
 <#macro indexJump>
- <div id="jump">
+ <div id="prioritydoc_jump">
   
     <a class="icon" href="#topAnchor" title="Jump to Top (Home)" onclick="return scrollToElement('#topAnchor');"/><img alt="class" class="icon" src="${base}/images/package.png"/></a>
     
@@ -479,7 +479,7 @@
       <a href="#exceptionAnchor" title="Jump to Exceptions" onclick="showByCategory(); return scrollToElement('#exceptionAnchor');"><img src="${base}/images/exception.png"/></a>
     </#if>    
 
-    <span id="initials"></span>
+    <span id="prioritydoc_initials"></span>
     
   </div>
 </#macro>
@@ -493,7 +493,7 @@
   parseParameters();
   </script>
 
-  <div id="footing">
+  <div id="prioritydoc_footing">
     <a title="Main Index (shift+I)" href="${base}/index.html">${options.title} Index</a>
     <div class="createdBy">
       Created by <a href="http://nickthecoder.co.uk/software/view/PriorityDoc">PriorityDoc</a> Java Doclet

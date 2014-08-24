@@ -3,7 +3,7 @@
 body { color: #000; background: #fff; }
 a { color: #229; }
 a:visited { color: #727; }
-#heading, #footing { background-color: #444; color: #eee; }
+#prioritydoc_heading, #prioritydoc_footing { background-color: #444; color: #eee; }
 .priority1 { background-color: #afa; }
 .priority2 { background-color: #cfc; }
 .priority3 { background-color: #efc; }
@@ -11,20 +11,20 @@ a:visited { color: #727; }
 .priority5 { background-color: #fff; }
 a.button.selected { color: #000; }
 a.initial { background-color: #444; color: #eee; }
-#heading a.button { color: #222; }
-#heading a, #footing a { color: #ddd; }
-#jump { color: #888; background-image: url("images/fadeBackground.png"); background-repeat: repeat-x; background-position: left bottom; }
+#prioritydoc_heading a.button { color: #222; }
+#prioritydoc_heading a, #prioritydoc_footing a { color: #ddd; }
+#prioritydoc_jump { color: #888; background-image: url("images/fadeBackground.png"); background-repeat: repeat-x; background-position: left bottom; }
 .initial { background: #fff; }
 a.button { border: 1px solid #888; }
 
 /* Layout */
 
 body { margin: 0; padding: 0; }
-#heading { position: fixed; top: 0; width: 100%; height: 6.5em; padding: 2px 1em; }
-#main { margin-top: 8em; padding: 1em; }
-#heading .buttons { float: right; text-align: right; margin-top: -4em; margin-right: 2em; }
-#footing { margin: 20em 0 0 0; padding: 0.5em 1em; text-align: center; }
-#jump { position: fixed; top: 5em; height: 3.5em; width: 100%; text-align: center; white-space: nowrap; }
+#prioritydoc_heading { position: fixed; top: 0; width: 100%; height: 6.5em; padding: 2px 1em; }
+#prioritydoc_main { margin-top: 8em; padding: 1em; }
+#prioritydoc_heading .buttons { float: right; text-align: right; margin-top: -4em; margin-right: 2em; }
+#prioritydoc_footing { margin: 20em 0 0 0; padding: 0.5em 1em; text-align: center; }
+#prioritydoc_jump { position: fixed; top: 5em; height: 3.5em; width: 100%; text-align: center; white-space: nowrap; }
 .anchor { display: block; position: relative; top: -9em; }
 
 /* Tag Styles */
@@ -40,8 +40,8 @@ code { font-family: Courier; }
 
 /* Class/ID Styles */
 
-#content .name { font-weight: bold; font-size: 120%; }
-#content h2 .name { font-size: 150%; }
+#prioritydoc_content .name { font-weight: bold; font-size: 120%; }
+#prioritydoc_content h2 .name { font-size: 150%; }
 a.button { font-size: 120%; border-radius: 5px; padding: 1px 6px; margin: 1px; }
 a.button.selected { font-size: 140%; }
 img.icon { vertical-align: -40%; padding-right: 0.5em;}
@@ -49,18 +49,18 @@ a.icon img.icon { padding-right: 0; }
 h1 img.icon { vertical-align: -10%; padding-right: 0.2em;}
 img.access { vertical-align: middle;}
 h1 .extends { font-size: 60%; }
-#main .hide { display: none; }
-#jump img { vertical-align: -50%; }
+#prioritydoc_main .hide { display: none; }
+#prioritydoc_jump img { vertical-align: -50%; }
 ul.plain { list-style-type: none; margin: 0; padding: 0; }
 ul.plain li { margin: 0.5em 0; padding: 0; }
 .inner { margin-left: 2em; }
 .deprecated { text-decoration: line-through; }
-.nowrap { white-space: nowrap; }
+.nowrap { white-space: nowrap; overflow:hidden; }
 .firstSentence:before { content: ":"; padding-left: 0.7em; padding-right: 0.7em; }
 .heading1 { margin: 4px 0; line-height: 1.5em; white-space: nowrap; }
 .heading1 .index { vertical-align: -10%; padding: 0 1.2em 0 9px;}
 .expanded { border: 1px solid #888; border-radius: 5px; padding: 0.5em 0.5em; margin: 1em 0; }
-#footer .createdBy { font-size: 70%; text-align: right; }
+#prioritydoc_footer .createdBy { font-size: 70%; text-align: right; }
 .aside { float: right; }
 
 /* Show/Hide */
@@ -76,14 +76,14 @@ body.byCategory .byName { display: none; }
 /* Responsive */
 
 @media (max-width: 600px) {
-  #initials { display: none; }
-  #heading .buttons .icon { display: none; }
-  #heading .buttons .button { display: none; }
-  #heading .buttons .button.vital { display: inline; }
+  #prioritydoc_initials { display: none; }
+  #prioritydoc_heading .buttons .icon { display: none; }
+  #prioritydoc_heading .buttons .button { display: none; }
+  #prioritydoc_heading .buttons .button.vital { display: inline; }
   .fixed .icon, .contracted .icon, .expanded .icon { display: none; }
 }
 
 @media (min-width: 1000px) {
-  #content { width: 1000px; margin-left: auto; margin-right: auto; }
+  #prioritydoc_content { width: 1000px; margin-left: auto; margin-right: auto; }
 }
 

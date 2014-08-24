@@ -11,12 +11,12 @@
   
   <@m.indexJump/>
   
-  <div id="main">
-  <div id="content">
+  <div id="prioritydoc_main">
+  <div id="prioritydoc_content">
   
     <!-- Template Details -->
 
-    <a id="topAnchor" class="anchor"></a>
+    <a id="prioritydoc_topAnchor" class="anchor"></a>
   
     <div class="detail">
       <div class="comment">

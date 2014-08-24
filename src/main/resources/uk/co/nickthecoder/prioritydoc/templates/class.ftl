@@ -10,27 +10,27 @@
   <#assign pretext>Package : <@m.packageName package=class.containingPackage()/></#assign>
   <@m.heading pretext=pretext doc=class/>
   
-  <div id="jump">
+  <div id="prioritydoc_jump">
   
-    <a class="icon" href="#topAnchor" title="Jump to Top (Home)" onclick="return scrollToElement('#topAnchor');"/><@m.icon doc=class/></a>
+    <a class="icon" href="#prioritydoc_topAnchor" title="Jump to Top (Home)" onclick="return scrollToElement('#prioritydoc_topAnchor');"/><@m.icon doc=class/></a>
     
     <#if (combinedClass.staticFields?size > 0)>
-        <a href="#staticFieldsAnchor"  title="Jump to Static Fields" onclick="return scrollToElement('#staticFieldsAnchor');"><img src="${base}/images/static_field.png"/></a>
+        <a href="#prioritydoc_staticFieldsAnchor"  title="Jump to Static Fields" onclick="return scrollToElement('#prioritydoc_staticFieldsAnchor');"><img src="${base}/images/static_field.png"/></a>
     </#if>
     <#if (combinedClass.staticMethods?size > 0)>
-        <a href="#staticMethodsAnchor" title="Jump to Static Methods" onclick="return scrollToElement('#staticMethodsAnchor');"><img src="${base}/images/static_method.png"/></a>
+        <a href="#prioritydoc_staticMethodsAnchor" title="Jump to Static Methods" onclick="return scrollToElement('#prioritydoc_staticMethodsAnchor');"><img src="${base}/images/static_method.png"/></a>
     </#if>
     <#if (combinedClass.fields?size > 0)>
-        <a href="#fieldsAnchor" title="Jump to Fields" onclick="return scrollToElement('#fieldsAnchor');"><img src="${base}/images/field.png"/></a>
+        <a href="#prioritydoc_fieldsAnchor" title="Jump to Fields" onclick="return scrollToElement('#prioritydoc_fieldsAnchor');"><img src="${base}/images/field.png"/></a>
     </#if>
     <#if (class.constructors()?size > 0)>
-        <a href="#constructorsAnchor" title="Jump to Constructors" onclick="return scrollToElement('#constructorsAnchor');"><img src="${base}/images/constructor.png"/></a>
+        <a href="#prioritydoc_constructorsAnchor" title="Jump to Constructors" onclick="return scrollToElement('#prioritydoc_constructorsAnchor');"><img src="${base}/images/constructor.png"/></a>
     </#if>
     <#if (combinedClass.methods?size > 0)>
-        <a href="#methodsAnchor" title="Jump to Methods" onclick="return scrollToElement('#methodsAnchor');"><img src="${base}/images/method.png"/></a>
+        <a href="#prioritydoc_methodsAnchor" title="Jump to Methods" onclick="return scrollToElement('#prioritydoc_methodsAnchor');"><img src="${base}/images/method.png"/></a>
     </#if>
 
-    <span id="initials"></span>
+    <span id="prioritydoc_initials"></span>
 
     <#if (class.innerClasses()?size > 0)>
         <a href="#innerClassesAnchor" title="Jump to Inner Classes" onclick="return scrollToElement('#innerClassesAnchor');"><img src="${base}/images/class.png"/></a>
@@ -40,10 +40,10 @@
 
 
 
-  <div id="main">
-  <div id="content">
+  <div id="prioritydoc_main">
+  <div id="prioritydoc_content">
   
-    <a id="topAnchor" class="anchor"></a>
+    <a id="prioritydoc_topAnchor" class="anchor"></a>
     
     <!-- Class Details -->
 
@@ -104,36 +104,36 @@
       
     <!-- Static Fields -->
 
-    <a id="staticFieldsAnchor" class="anchor"></a>
+    <a id="prioritydoc_staticFieldsAnchor" class="anchor"></a>
     <#if (combinedClass.staticFields?size > 0)>
-      <h3 id="staticFields">Static Fields</h3>
+      <h3 id="prioritydoc_staticFields">Static Fields</h3>
       <@m.fields fields=combinedClass.staticFields/>
     </#if>
 
 
     <!-- Static Methods -->
 
-    <a id="staticMethodsAnchor" class="anchor"></a>
+    <a id="prioritydoc_staticMethodsAnchor" class="anchor"></a>
     <#if (combinedClass.staticMethods?size > 0)>
-      <h3 id="staticMethods">Static Methods</h3>
+      <h3 id="prioritydoc_prioritydoc_staticMethods">Static Methods</h3>
       <@m.methods methods=combinedClass.staticMethods useInitials=false/>  
     </#if>
 
 
     <!-- Fields -->
 
-    <a id="fieldsAnchor" class="anchor"></a>
+    <a id="prioritydoc_fieldsAnchor" class="anchor"></a>
     <#if (combinedClass.fields?size > 0)>
-      <h3 id="fields">Fields</h3>
+      <h3 id="prioritydoc_fields">Fields</h3>
       <@m.fields fields=combinedClass.fields/>
     </#if>
 
 
     <!-- Constructors -->
     
-    <a id="constructorsAnchor" class="anchor"></a>
+    <a id="prioritydoc_constructorsAnchor" class="anchor"></a>
     <#if (class.constructors()?size > 0)>
-      <h3 id="constructors">Constructors</h3>
+      <h3 id="prioritydoc_constructors">Constructors</h3>
       
       <#list class.constructors() as constructor>
 
@@ -171,18 +171,18 @@
 
     <!-- Methods -->
 
-    <a id="methodsAnchor" class="anchor"></a>
+    <a id="prioritydoc_methodsAnchor" class="anchor"></a>
     <#if (combinedClass.methods?size > 0)>
-      <h3 id="methods">Methods</h3>
+      <h3 id="prioritydoc_methods">Methods</h3>
       <@m.methods methods=combinedClass.methods useInitials=true/>  
     </#if>
 
 
     <!-- Inner Classes -->
 
-    <a id="innerClassesAnchor" class="anchor"></a>
+    <a id="prioritydoc_innerClassesAnchor" class="anchor"></a>
     <#if (class.innerClasses()?size > 0)>
-      <h3 id="innerClasses">Inner Classes</h3>
+      <h3 id="prioritydoc_innerClasses">Inner Classes</h3>
       <#list class.innerClasses() as innerClass>
         <div class="innerClass <@m.priorityClass doc=innerClass/> contracted">
           <img src="${base}/images/class.png" class="icon"/>
