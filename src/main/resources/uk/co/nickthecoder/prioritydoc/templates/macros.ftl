@@ -326,7 +326,7 @@
       
       <div class="detail">
         <div class="comment">
-          ${field.commentText()}
+          <@text tags=field.inlineTags() />
         </div>
 
         <@standardTags doc=field/>
@@ -414,6 +414,21 @@
 
 </#macro>
 
+<#macro classEnumOrInterface doc>
+<#compress>
+  <#if doc.isInterface()>
+    interface
+  <#else>
+    <#if doc.isEnum()>
+      enum
+    <#else>
+      class
+    </#if>      
+  </#if>
+</#compress>
+</#macro>
+
+
 <#macro access doc>
 <#compress>
   <#if doc.isPublic()>
@@ -424,6 +439,22 @@
     <#else>
       <#if doc.isPrivate()>
         <img class="access" alt="private" title="private" src="${base}/images/private.png"/>
+      </#if>
+    </#if>
+  </#if>
+</#compress>
+</#macro>
+
+<#macro accessText doc>
+<#compress>
+  <#if doc.isPublic()>
+    public
+  <#else>
+    <#if doc.isProtected()>
+      protected
+    <#else>
+      <#if doc.isPrivate()>
+        private
       </#if>
     </#if>
   </#if>

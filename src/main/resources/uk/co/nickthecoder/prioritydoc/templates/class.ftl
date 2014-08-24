@@ -48,7 +48,7 @@
     <!-- Class Details -->
 
     <h2>
-      <@m.name doc=class/>
+      <@m.accessText doc=class/> <@m.classEnumOrInterface doc=class/> <@m.name doc=class/>
       
       <#if (class.typeParameters()?size > 0)>
         &lt;
@@ -64,7 +64,7 @@
       </#if>
       
       <#if (class.interfaces()?size > 0)>
-        <span class="extends"> implements
+        <span class="extends"> <#if class.isInterface()>extends<#else>implements</#if>
         <#assign comma=false>
         <#list class.interfaces() as interface>
           <#if comma> , </#if><#assign comma=true><@m.type type=interface/>
