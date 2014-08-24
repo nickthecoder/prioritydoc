@@ -155,7 +155,7 @@
         <a class="seeMember" href="#${seeTag.referencedMemberName()?html}">${seeTag.referencedMemberName()?html}</a>
       <#else>
         <a class="seeMember" href="<@classURL class=seeTag.referencedClass()/>#${seeTag.referencedMemberName()}">
-          ${seeTag.referencedClass().name()}met.${seeTag.referencedMemberName()?html}
+          ${seeTag.referencedClass().name()}.${seeTag.referencedMemberName()?html}
         </a>
       </#if>
             
