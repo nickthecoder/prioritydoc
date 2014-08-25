@@ -9,18 +9,20 @@ $( document ).ready(function() {
         attachPriorityButton(i);
     }
     $( "#prioritydoc_priority" + initialPriority + "Button" ).trigger( "click" );
-    
+
     $( "div.contracted" ).on( "click", expand );
     $( "div.expanded" ).on( "click", contract );
 
     if (window.location.hash) {
         expandAndShow(window.location.hash.substring(1));
-    }          
+    }
 });
 
 function scrollToElement(selector)
 {
-    $('html,body').animate({ scrollTop: $(selector).offset().top} );
+    if ( $(selector).length == 1 ) {
+        $('html,body').animate({ scrollTop: $(selector).offset().top} );
+    }
     return false;
 }
 
@@ -51,7 +53,7 @@ function onKeydown(e)
       scrollToElement('#prioritydoc_initial_' + letter );
       return false;
     }
-    
+
 
     switch ( code )
     {
@@ -64,7 +66,7 @@ function onKeydown(e)
         default:
             break;
     }
-    
+
     switch ( letter )
     {
         case '1':
@@ -90,14 +92,14 @@ function onKeydown(e)
 function expandAndShow( id )
 {
     var ele = $(document.getElementById(id)); // jquery doesn't like ids such as "myMethod()".
-    
+
     $(ele).closest(".contracted").off( "click" ).on( "click", contract ).removeClass( "contracted" ).addClass( "expanded" );
     var i;
     for ( i = currentPriority + 1; i < 6; i ++ ) {
         if (ele.closest(".priority" + i).length > 0) {
             setPriority( i );
         }
-    } 
+    }
     scrollToElement( ele );
 }
 
@@ -159,9 +161,9 @@ function attachPriorityButton( i )
             }
         }
         $( '#prioritydoc_priority' + i + 'Button' ).addClass("selected");
-        
+
         $( '#prioritydoc_hiddenCount' ).html( $('.hide').length );
-        
+
         if ( cookiesEnabled ) {
             document.cookie="prioritydoc_priority=" + i + "; path=/";
         }
@@ -184,10 +186,10 @@ function createInitials( initials )
     if ( initials.length < 2) {
         return;
     }
-    
+
     var i;
     var previous = null;
-    
+
     for (i = 0; i < initials.length; i ++ ) {
         var initial = initials.substring( i, i + 1 );
         if (previous != null) {
@@ -241,7 +243,7 @@ function parseItems( items )
                     initialPriority = priority;
                 }
             }
-            
+
         } catch (err) {
         }
     }

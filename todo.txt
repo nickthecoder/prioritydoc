@@ -16,13 +16,13 @@ Publish the generated Maven "site" to /public/prioritydoc
 
 Later
 =====
-    
 
-    
+
+
 Add link icons, which change the url to point to that resource.
     e.g. #myMethod()
     It may also need to set the priority.
-  
+
 Substitute a type variable with its actual type when subclassing. (As in ExplositionBuilder).
 
 Make "jump to" shortcuts more complex.

@@ -8,18 +8,18 @@
 
 <body class="byCategory">
   <@m.heading doc="index" pretext=options.title?html/>
-  
+
   <@m.indexJump/>
-    
+
   <div id="prioritydoc_main">
   <div id="prioritydoc_content">
-  
+
     <!-- Template Details -->
 
     <a id="prioritydoc_topAnchor" class="anchor"></a>
-    
+
     <!-- Packages -->
-    
+
     <h3>Packages</h3>
     <a id="prioritydoc_packagesAnchor" class="anchor"></a>
     <#list root.specifiedPackages() as package>
@@ -36,7 +36,7 @@
     </#list>
 
     <div class="byCategory">
-    
+
       <!-- Enums -->
       <@m.summary docs=sortedEnums title="Enums" type="enum"/>
 
@@ -48,14 +48,14 @@
 
       <!-- Exceptions -->
       <@m.summary docs=sortedExceptions title="Exceptions" type="exception"/>
-    
+
     </div>
 
     <div class="byName">
       <h3>By Name</h3>
       <@m.summary docs=sortedCombined useInitials=true/>
     </div>
-    
+
   </div>
   </div>
 

@@ -1,4 +1,4 @@
-package uk.co.nickthecoder.cleandoclet;
+package uk.co.nickthecoder.prioritydoc;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

@@ -1,4 +1,7 @@
-package uk.co.nickthecoder.prioritydoc;
+package uk.co.nickthecoder.prioritydoc.foo;
+
+import uk.co.nickthecoder.prioritydoc.Generator;
+import uk.co.nickthecoder.prioritydoc.Options;
 
 import com.sun.javadoc.RootDoc;
 

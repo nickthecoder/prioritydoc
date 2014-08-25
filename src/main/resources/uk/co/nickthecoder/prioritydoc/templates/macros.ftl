@@ -1,7 +1,7 @@
 <#assign previousInitial="">
 <#assign usedInitials="">
 <#assign pageDoc="">
-  
+
 <#macro page bas opt doc>
   <#assign base=bas>
   <#assign options=opt>
@@ -15,15 +15,15 @@
   <script src="${base}/jquery-2.1.1.min.js"></script>
   <script src="${base}/jquery-ui.min.js"></script>
   <script src="${base}/prioritydoc.js"></script>
-	<link rel="shortcut icon" href="${base}/images/favicon.png">
+  <link rel="shortcut icon" href="${base}/images/favicon.png">
 </#macro>
 
 <#macro heading pretext="" doc="index">
   <div id="prioritydoc_heading">
     <div class="heading1">
-      <a id="prioritydoc_indexLink" title="Main Index (shift+I)" class="index" href="${base}/index.html"><img alt="index" src="${base}/images/favicon.png"/></a>${pretext} 
+      <a id="prioritydoc_indexLink" title="Main Index (shift+I)" class="index" href="${base}/index.html"><img alt="index" src="${base}/images/favicon.png"/></a>${pretext}
     </div>
-    
+
     <h1 onclick="scrollToElement('#topAnchor')">
       <@m.icon doc=doc/>
       <@m.name doc=doc/>
@@ -32,7 +32,7 @@
       <div class="above"><span id="prioritydoc_hiddenCount">0</span> hidden item(s)</div>
       <img id="prioritydoc_contractButton" class="icon" src="${base}/images/contract.png" alt="-" title="Contract (shortcut -)" onClick="contractAll();return false;">
       <img id="prioritydoc_expandButton" class="icon" src="${base}/images/expand.png" alt="+" title="Expand (shortcut +)" onClick="expandAll();return false;">
-    
+
       <a id="prioritydoc_priority1Button" class="button priority1" title="Priority 1. Hide 2, 3, 4 and 5 (shortcut 1)">1</a>
       <a id="prioritydoc_priority2Button" class="button priority2" title="Priority 2. Hide 3, 4 and 5 (shortcut 2)">2</a>
       <a id="prioritydoc_priority3Button" class="button priority3" title="Priority 3. Hide 4 and 5 (shortcut 3)">3</a>
@@ -60,7 +60,7 @@
 </#compress>
 </#macro>
 
-  
+
 <#macro icon doc>
 <#compress>
   <#if doc=="index">
@@ -94,7 +94,7 @@
     <#if type.asTypeVariable()??>
       ${type.toString()?html}<#t> <!--type-->
     <#else>
-      
+
       <#if type.asWildcardType()??>
         ${type.toString()?html}<#t> <!--wildcard-->
       <#else>
@@ -106,7 +106,7 @@
         <#else>
           ${type.toString()?html}<#t>  <!--other-->
         </#if>
-        
+
       </#if>
 
     </#if>
@@ -124,7 +124,7 @@
   <#else>
     <#assign bas=options.getJavadocsForPackage(class.containingPackage())!"">
   </#if>
-  
+
   <#if bas=="">
     <span class="external" title="${class.qualifiedName()}">${class.name()}</span>
   <#else>
@@ -158,7 +158,7 @@
           ${seeTag.referencedClass().name()}.${seeTag.referencedMemberName()?html}
         </a>
       </#if>
-            
+
     <#else>
 
       <#if seeTag.referencedClass()??>
@@ -168,13 +168,13 @@
         </a>
 
       <#else>
-        ${seeTag.label()?html}  
+        ${seeTag.label()?html}
       </#if>
 
     </#if>
 
   </#if>
-            
+
 </#compress>
 </#macro>
 
@@ -200,7 +200,7 @@
         <#assign priority=(priorities[tag.text()])!0>
     </#list>
   </#if>
-  
+
   <#if priority==0>
     <#if (doc.isPrivate()!false) || (doc.tags("deprecated")?size > 0)>
       <#assign priority=5>
@@ -220,7 +220,7 @@
       </#if>
     </#if>
   </#if>
-  
+
   priority${priority}
 </#compress>
 </#macro>
@@ -278,7 +278,7 @@
 </#macro>
 
 <#macro see doc>
-  <#if (doc.seeTags()?size > 0)>  
+  <#if (doc.seeTags()?size > 0)>
     <div class="see">
       <h4>See Also:</h4>
       <div class="inner">
@@ -300,7 +300,7 @@
       <div class="inner">
         <#list doc.tags("return") as return>
           ${return.text()}
-        </#list>                
+        </#list>
       </div>
     </div>
   </#if>
@@ -321,9 +321,9 @@
         <@access doc=field/>
         <#if (field.commentText()?trim?length > 0)><span class="more">...</span></#if>
       </span>
-          
+
       <@definedIn ele=field/>
-      
+
       <div class="detail">
         <div class="comment">
           <@text tags=field.inlineTags() />
@@ -331,10 +331,10 @@
 
         <@standardTags doc=field/>
       </div>
-       
+
     </div>
   </#list>
-    
+
 </#macro>
 
 <#macro initialAnchor doc>
@@ -368,7 +368,7 @@
       <a class="anchor" id="${method.name()}${removeGenerics(method.signature())}"></a>
       <span class="nowrap">
         <img src="${base}/images/<#if method.isStatic()>static_</#if>method.png" class="icon"/>
-      
+
         <@name doc=method/>
         (
         <#assign comma=false>
@@ -380,17 +380,17 @@
         <@access doc=method/>
         <#if (method.commentText()?trim?length > 0)><span class="more">...</span></#if>
       </span>
-      
+
       <@definedIn ele=method/>
-      
+
       <div class="detail">
 
         <div class="comment">
           <@text tags=method.inlineTags() />
         </div>
-      
+
         <@parameters method=method/>
-        
+
         <@standardTags doc=method/>
 
         <#if (method.throwsTags()?size > 0)>
@@ -401,16 +401,16 @@
               <#list method.throwsTags() as throwsTag>
                 <li>${throwsTag.exceptionType().name()} : ${throwsTag.exceptionComment()}</li>
               </#list>
-              </ul>                
+              </ul>
             </div>
           </div>
         </#if>
-        
+
       </div>
 
     </div>
-    
-  </#list>  
+
+  </#list>
 
 </#macro>
 
@@ -423,7 +423,7 @@
       enum
     <#else>
       class
-    </#if>      
+    </#if>
   </#if>
 </#compress>
 </#macro>
@@ -463,24 +463,24 @@
 
 <#macro indexJump>
  <div id="prioritydoc_jump">
-  
-    <a class="icon" href="#topAnchor" title="Jump to Top (Home)" onclick="return scrollToElement('#topAnchor');"/><img alt="class" class="icon" src="${base}/images/package.png"/></a>
-    
+
+    <a class="icon" href="#prioritydoc_topAnchor" title="Jump to Top (Home)" onclick="return scrollToElement('#prioritydoc_topAnchor');"/><img alt="class" class="icon" src="${base}/images/package.png"/></a>
+
     <#if (sortedEnums?size > 0)>
-      <a href="#enumAnchor" title="Jump to Enums" onclick="showByCategory(); return scrollToElement('#enumAnchor');"><img src="${base}/images/enum.png"/></a>
+      <a href="#prioritydoc_enumAnchor" title="Jump to Enums" onclick="showByCategory(); return scrollToElement('#prioritydoc_enumAnchor');"><img src="${base}/images/enum.png"/></a>
     </#if>
     <#if (sortedInterfaces?size > 0)>
-      <a href="#interfaceAnchor" title="Jump to Interfaces" onclick="showByCategory(); return scrollToElement('#interfaceAnchor');"><img src="${base}/images/interface.png"/></a>
-    </#if>    
+      <a href="#prioritydoc_interfaceAnchor" title="Jump to Interfaces" onclick="showByCategory(); return scrollToElement('#prioritydoc_interfaceAnchor');"><img src="${base}/images/interface.png"/></a>
+    </#if>
     <#if (sortedClasses?size > 0)>
-      <a href="#classAnchor" title="Jump to Classes" onclick="showByCategory(); return scrollToElement('#classAnchor');"><img src="${base}/images/class.png"/></a>
-    </#if>    
+      <a href="#prioritydoc_classAnchor" title="Jump to Classes" onclick="showByCategory(); return scrollToElement('#prioritydoc_classAnchor');"><img src="${base}/images/class.png"/></a>
+    </#if>
     <#if (sortedExceptions?size > 0)>
-      <a href="#exceptionAnchor" title="Jump to Exceptions" onclick="showByCategory(); return scrollToElement('#exceptionAnchor');"><img src="${base}/images/exception.png"/></a>
-    </#if>    
+      <a href="#prioritydoc_exceptionAnchor" title="Jump to Exceptions" onclick="showByCategory(); return scrollToElement('#prioritydoc_exceptionAnchor');"><img src="${base}/images/exception.png"/></a>
+    </#if>
 
     <span id="prioritydoc_initials"></span>
-    
+
   </div>
 </#macro>
 
