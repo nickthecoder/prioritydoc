@@ -40,8 +40,8 @@ public class DiagramReader
         this.diagram.imageFilename = diagramTag.getOptionalAttribute("image", null);
         this.diagram.thumbnailFilename = diagramTag.getOptionalAttribute("thumbnail", null);
 
-        this.diagram.thumbnailWidth = diagramTag.getOptionalIntAttribute("thumbnailWidth", 150);
-        this.diagram.thumbnailHeight = diagramTag.getOptionalIntAttribute("thumbnailHeight", 150);
+        this.diagram.thumbnailWidth = diagramTag.getOptionalIntAttribute("thumbnailWidth", 250);
+        this.diagram.thumbnailHeight = diagramTag.getOptionalIntAttribute("thumbnailHeight", 250);
 
         for (Iterator<XMLTag> i = diagramTag.getTags("class"); i.hasNext();) {
             XMLTag classTag = i.next();
