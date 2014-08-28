@@ -146,7 +146,7 @@
 <#macro seeLink seeTag>
 <#compress>
   <#if seeTag.referencedPackage()??>
-
+    [package : ${seeTag.label()?html}]
   <#else>
 
     <#if seeTag.referencedMember()??>
@@ -181,10 +181,31 @@
 <#macro text tags>
 <#compress>
   <#list tags as tag>
-    <#if tag.kind() == "@see">
-      <@seeLink seeTag=tag/>
-    <#else>
+    <#if tag.kind() == "Text">
       ${tag.text()}
+    <#else>
+      <#if tag.kind() == "@see">
+        <@seeLink seeTag=tag/>
+      <#else>
+        <#if tag.kind() == "@docRoot">
+          ${base}
+        <#else>
+          <#if tag.kind() == "@code">
+            <span class="code">${tag.text()?html}</span>
+          <#else>
+            <#if tag.kind() == "@literal">
+              ${tag.text()?html}
+            <#else>
+              <#if tag.kind() == "@author2">
+                <span class="author">${tag.text()?html}</span>
+              <#else>
+                <#if (root.printWarning("Unknown Tag kind : " + tag.kind())??)></#if>
+                ${tag.toString()}
+              </#if>
+            </#if>
+          </#if>
+        </#if>
+      </#if>
     </#if>
   </#list>
 </#compress>
@@ -461,10 +482,14 @@
 </#compress>
 </#macro>
 
-<#macro indexJump>
+<#macro indexJump includePackages=false>
  <div id="prioritydoc_jump">
 
-    <a class="icon" href="#prioritydoc_topAnchor" title="Jump to Top (Home)" onclick="return scrollToElement('#prioritydoc_topAnchor');"/><img alt="class" class="icon" src="${base}/images/package.png"/></a>
+    <a class="icon" href="#prioritydoc_topAnchor" title="Jump to Top (Home)" onclick="return scrollToElement('#prioritydoc_topAnchor');"/><img alt="class" class="icon" src="${base}/images/top.png"/></a>
+
+    <#if includePackages>
+      <a href="#prioritydoc_packagesAnchor" title="Jump to Packages" onclick="return scrollToElement('#prioritydoc_packagesAnchor');"><img src="${base}/images/package.png"/></a>
+    </#if>
 
     <#if (sortedEnums?size > 0)>
       <a href="#prioritydoc_enumAnchor" title="Jump to Enums" onclick="showByCategory(); return scrollToElement('#prioritydoc_enumAnchor');"><img src="${base}/images/enum.png"/></a>

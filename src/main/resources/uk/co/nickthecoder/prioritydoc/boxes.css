@@ -1,0 +1,53 @@
+/* colours */
+body { background: #fff; color: #000; font-size: 90%;}
+#header { background: #444; color: #eee; }
+.title { background: #444; color: #eee; }
+.script .title { background: #044; }
+.title a { color: #eee; }
+a { color: #444; }
+.box { background: url('background.png');  box-shadow: 0px 0px 8px #440; }
+.script { box-shadow: 1px 1px 8px #044; }
+.popup { border: 1px solid #222; border-radius: 10px; background: #444; }
+
+/* html elements */
+
+body { font-family: verdana, sans; margin: 0; padding: 0; }
+h1 { font-size: 150%; font-weight: bold; text-align: center; padding : 0.5em 0; margin: 0; }
+a { text-decoration: none; font-weight: bold; }
+
+ul { list-style-position: outside; margin: 0; padding: 0 }
+li { margin: 0; padding: 0; }
+
+/* Styles */
+
+#canvas { position: absolute; top: 0px; left: 0px; }
+#prioritydoc_diagram { position:relative; }
+body.noheader #header { display: none; }
+#header .buttons { float: left; margin: 1em; }
+.button { border: 1px solid #000; background: #666; color: #fff; padding: 6px 8px; border-radius: 5px;}
+
+.popup { display: none; position: absolute; top: 25%; left: 15%; width: 70%; z-index:1000; padding: 1em; }
+#prioritydoc_infoTextArea{ width: 100%; height: 20em; overflow-x: scroll; }
+#prioritydoc_infoButton { display: none; }
+
+.box { position: absolute; border: 1px solid #000; }
+.box .title { text-align: center; font-weight: bold; margin: 2px; padding: 0.3em; }
+.box { border-radius: 8px; }
+.box .title { border-radius: 6px; border: 1px solid #222; }
+.box .content { padding: 0.5em; font-size: 80%; }
+
+ul.methods, ul.fields { list-style: none; }
+ul.methods li, ul.fields li { padding-left: 16px; }
+ul.methods li { background: url('method.png') no-repeat left center; }
+ul.methods li.protected { background: url('protectedMethod.png') no-repeat left center; }
+ul.methods li.private { background: url('privateMethod.png') no-repeat left center; }
+ul.methods li.public { background: url('publicMethod.png') no-repeat left center; }
+ul.fields li { background: url('field.png') no-repeat left center; }
+ul.fields li.private { background: url('privateField.png') no-repeat left center; }
+ul.fields li.protected { background: url('protectedField.png') no-repeat left center; }
+ul.fields li.public { background: url('publicField.png') no-repeat left center; }
+
+.static { font-style: italic; }
+
+.content ul { border-bottom: 1px solid #000; margin-bottom: 10px; padding-bottom: 10px; }
+.content ul:last-child { border-bottom: 0px; margin-bottom: 0; padding-bottom: 0; }

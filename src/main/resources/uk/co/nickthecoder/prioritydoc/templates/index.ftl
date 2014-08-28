@@ -9,7 +9,7 @@
 <body class="byCategory">
   <@m.heading doc="index" pretext=options.title?html/>
 
-  <@m.indexJump/>
+  <@m.indexJump includePackages=true/>
 
   <div id="prioritydoc_main">
   <div id="prioritydoc_content">
@@ -18,11 +18,15 @@
 
     <a id="prioritydoc_topAnchor" class="anchor"></a>
 
+    <#if mainPackage??>
+      <@m.text tags=mainPackage.inlineTags()/>
+    </#if>
+
     <!-- Packages -->
 
     <h3>Packages</h3>
     <a id="prioritydoc_packagesAnchor" class="anchor"></a>
-    <#list root.specifiedPackages() as package>
+    <#list packages as package>
       <div class="package priority1 fixed nowrap">
         <img src="${base}/images/package.png" class="icon"/>
         <@m.packageName package=package/>

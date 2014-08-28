@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<diagram title="PriorityDoc" filename="classDiagram.html" image="classDiagram.png" thumbnail="classDiagramThumb.png" width="900" height="900">
+
+    <class name="uk.co.nickthecoder.prioritydoc.PriorityDoc" x="80" y="19"/>
+    <class name="uk.co.nickthecoder.prioritydoc.Generator" x="24" y="238"/>
+    <class name="uk.co.nickthecoder.prioritydoc.Options" x="335" y="12"/>
+    <class name="uk.co.nickthecoder.prioritydoc.Diagram" x="628" y="133"/>
+    <class name="uk.co.nickthecoder.prioritydoc.Connection" x="487" y="527"/>
+    <class name="uk.co.nickthecoder.prioritydoc.ClassBox" x="756" y="522"/>
+
+    <dependency from="uk.co.nickthecoder.prioritydoc.PriorityDoc" to="uk.co.nickthecoder.prioritydoc.Generator" toLabel="generator" />
+    <association from="uk.co.nickthecoder.prioritydoc.Generator" to="uk.co.nickthecoder.prioritydoc.Options" toLabel="options"/>
+    <dependency from="uk.co.nickthecoder.prioritydoc.Generator" to="uk.co.nickthecoder.prioritydoc.Diagram" fromLabel="(generateDiagram)"/>
+
+    <composition from="uk.co.nickthecoder.prioritydoc.Diagram" to="uk.co.nickthecoder.prioritydoc.ClassBox" toLabel="classBoxes"/>
+    <composition from="uk.co.nickthecoder.prioritydoc.Diagram" to="uk.co.nickthecoder.prioritydoc.Connection" toLabel="connections"/>
+
+</diagram>

@@ -12,7 +12,7 @@
   
   <div id="prioritydoc_jump">
   
-    <a class="icon" href="#prioritydoc_topAnchor" title="Jump to Top (Home)" onclick="return scrollToElement('#prioritydoc_topAnchor');"/><@m.icon doc=class/></a>
+    <a class="icon" href="#prioritydoc_topAnchor" title="Jump to Top (Home)" onclick="return scrollToElement('#prioritydoc_topAnchor');"/><img src="${base}/images/top.png"/></a>
     
     <#if (combinedClass.staticFields?size > 0)>
         <a href="#prioritydoc_staticFieldsAnchor"  title="Jump to Static Fields" onclick="return scrollToElement('#prioritydoc_staticFieldsAnchor');"><img src="${base}/images/static_field.png"/></a>
