@@ -228,7 +228,9 @@ public class Generator
             Collections.sort(this.packages);
         } else {
             this.packages = Arrays.asList(this.root.specifiedPackages());
-            this.mainPackage = this.root.packageNamed(this.options.mainPackage);
+            if (this.options.mainPackage != null) {
+            	this.mainPackage = this.root.packageNamed(this.options.mainPackage);
+            }
         }
     }
 
