@@ -54,7 +54,7 @@
         &lt;
         <#assign comma=false>
         <#list class.typeParameters() as typeParameter>
-          <#if comma> , </#if><#assign comma=true>${typeParameter}
+          <#if comma> , </#if><#assign comma=true>${typeParameter?html}
         </#list>
         &gt;
       </#if>
