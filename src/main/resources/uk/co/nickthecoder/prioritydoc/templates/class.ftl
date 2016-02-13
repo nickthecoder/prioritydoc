@@ -12,10 +12,13 @@
   
   <div id="prioritydoc_jump">
   
-    <a class="icon" href="#prioritydoc_topAnchor" title="Jump to Top (Home)" onclick="return scrollToElement('#prioritydoc_topAnchor');"/><img src="${base}/images/top.png"/></a>
+    <a class="icon" href="#prioritydoc_topAnchor" title="Jump to Top (Home)" onclick="return scrollToElement('#prioritydoc_topAnchor');"><img src="${base}/images/top.png"/></a>
     
     <#if (combinedClass.staticFields?size > 0)>
         <a href="#prioritydoc_staticFieldsAnchor"  title="Jump to Static Fields" onclick="return scrollToElement('#prioritydoc_staticFieldsAnchor');"><img src="${base}/images/static_field.png"/></a>
+    </#if>
+    <#if (combinedClass.enumConstants?size > 0)>
+        <a href="#prioritydoc_enumConstantsAnchor"  title="Jump to Enum Constants" onclick="return scrollToElement('#prioritydoc_enumConstantsAnchor');"><img src="${base}/images/static_field.png"/></a>
     </#if>
     <#if (combinedClass.staticMethods?size > 0)>
         <a href="#prioritydoc_staticMethodsAnchor" title="Jump to Static Methods" onclick="return scrollToElement('#prioritydoc_staticMethodsAnchor');"><img src="${base}/images/static_method.png"/></a>
@@ -108,6 +111,12 @@
     <#if (combinedClass.staticFields?size > 0)>
       <h3 id="prioritydoc_staticFields">Static Fields</h3>
       <@m.fields fields=combinedClass.staticFields/>
+    </#if>
+
+    <a id="prioritydoc_enumConstantsAnchor" class="anchor"></a>
+    <#if (combinedClass.enumConstants?size > 0)>
+      <h3 id="prioritydoc_enumConstants">Enum Constants</h3>
+      <@m.fields fields=combinedClass.enumConstants/>
     </#if>
 
 

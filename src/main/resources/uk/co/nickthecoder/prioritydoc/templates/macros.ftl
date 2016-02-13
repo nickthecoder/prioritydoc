@@ -485,7 +485,7 @@
 <#macro indexJump includePackages=false>
  <div id="prioritydoc_jump">
 
-    <a class="icon" href="#prioritydoc_topAnchor" title="Jump to Top (Home)" onclick="return scrollToElement('#prioritydoc_topAnchor');"/><img alt="class" class="icon" src="${base}/images/top.png"/></a>
+    <a class="icon" href="#prioritydoc_topAnchor" title="Jump to Top (Home)" onclick="return scrollToElement('#prioritydoc_topAnchor');"><img alt="class" class="icon" src="${base}/images/top.png"/></a>
 
     <#if includePackages>
       <a href="#prioritydoc_packagesAnchor" title="Jump to Packages" onclick="return scrollToElement('#prioritydoc_packagesAnchor');"><img src="${base}/images/package.png"/></a>

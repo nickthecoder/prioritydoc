@@ -377,6 +377,7 @@ public class Generator
 
         combineMethods(combinedMap, classDoc);
         combineFields(combinedMap, classDoc);
+        combinedMap.put("enumConstants", classDoc.enumConstants());
 
         root.put("combinedClass", combinedMap);
         root.put("knownSubclasses", this.knownSubclasses.get(classDoc.name()));
@@ -565,7 +566,7 @@ public class Generator
      * @param classDoc
      *        , the sub-class which has all of its methods combined into a list. Not null.
      * 
-     * @return A list of MethodDocs sorted by thier name.
+     * @return A list of MethodDocs sorted by their name.
      * 
      *         Methods that are overriden should NOT be duplicated. Will be empty if the class, nor its super classes
      *         (excluding Object) have methods.
