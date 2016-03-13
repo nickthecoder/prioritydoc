@@ -449,9 +449,9 @@ public class Generator
      * @param classDoc
      *        , the sub-class which has all of its methods combined into a list. Not null.
      * 
-     * @return A list of MethodDocs sorted by thier name.
+     * @return A list of MethodDocs sorted by their name.
      * 
-     *         Methods that are overriden should NOT be duplicated. Will be empty if the class, nor its super classes
+     *         Methods that are overridden should NOT be duplicated. Will be empty if the class, nor its super classes
      *         (excluding Object) have methods.
      * @priority 3
      */
@@ -487,7 +487,7 @@ public class Generator
         }
 
         for (MethodDoc methodDoc : currentClassDoc.methods()) {
-            // Ignore inherrited private methods
+            // Ignore inherited private methods
             if (methodDoc.isPrivate() && (isSuper)) {
                 continue;
             }

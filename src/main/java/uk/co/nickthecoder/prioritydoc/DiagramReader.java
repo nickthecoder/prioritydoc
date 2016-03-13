@@ -65,6 +65,7 @@ public class DiagramReader
         classBox.name = classTag.getAttribute("name");
         classBox.x = classTag.getIntAttribute("x");
         classBox.y = classTag.getIntAttribute("y");
+        classBox.priority = classTag.getOptionalIntAttribute("priority", 1);
         this.diagram.add(classBox);
     }
 
