@@ -36,7 +36,7 @@
     <span id="prioritydoc_initials"></span>
 
     <#if (class.innerClasses()?size > 0)>
-        <a href="#innerClassesAnchor" title="Jump to Inner Classes" onclick="return scrollToElement('#innerClassesAnchor');"><img src="${base}/images/class.png"/></a>
+        <a href="#prioritydoc_innerClassesAnchor" title="Jump to Inner Classes" onclick="return scrollToElement('#prioritydoc_innerClassesAnchor');"><img src="${base}/images/class.png"/></a>
     </#if>
     
   </div>
@@ -110,13 +110,13 @@
     <a id="prioritydoc_staticFieldsAnchor" class="anchor"></a>
     <#if (combinedClass.staticFields?size > 0)>
       <h3 id="prioritydoc_staticFields">Static Fields</h3>
-      <@m.fields fields=combinedClass.staticFields/>
+      <@m.fields class=class fields=combinedClass.staticFields/>
     </#if>
 
     <a id="prioritydoc_enumConstantsAnchor" class="anchor"></a>
     <#if (combinedClass.enumConstants?size > 0)>
       <h3 id="prioritydoc_enumConstants">Enum Constants</h3>
-      <@m.fields fields=combinedClass.enumConstants/>
+      <@m.fields class=class fields=combinedClass.enumConstants/>
     </#if>
 
 
@@ -125,7 +125,7 @@
     <a id="prioritydoc_staticMethodsAnchor" class="anchor"></a>
     <#if (combinedClass.staticMethods?size > 0)>
       <h3 id="prioritydoc_prioritydoc_staticMethods">Static Methods</h3>
-      <@m.methods methods=combinedClass.staticMethods useInitials=false/>  
+      <@m.methods class=class methods=combinedClass.staticMethods useInitials=false />  
     </#if>
 
 
@@ -134,7 +134,7 @@
     <a id="prioritydoc_fieldsAnchor" class="anchor"></a>
     <#if (combinedClass.fields?size > 0)>
       <h3 id="prioritydoc_fields">Fields</h3>
-      <@m.fields fields=combinedClass.fields/>
+      <@m.fields class=class fields=combinedClass.fields/>
     </#if>
 
 
@@ -183,7 +183,7 @@
     <a id="prioritydoc_methodsAnchor" class="anchor"></a>
     <#if (combinedClass.methods?size > 0)>
       <h3 id="prioritydoc_methods">Methods</h3>
-      <@m.methods methods=combinedClass.methods useInitials=true/>  
+      <@m.methods class=class methods=combinedClass.methods useInitials=true/>  
     </#if>
 
 

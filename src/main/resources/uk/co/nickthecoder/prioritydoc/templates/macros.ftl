@@ -5,7 +5,7 @@
 <#macro page bas opt doc>
   <#assign base=bas>
   <#assign options=opt>
-  <#assign base=bas>
+  <#assign doc=doc>
 </#macro>
 
 <#macro head title>
@@ -178,45 +178,14 @@
 </#compress>
 </#macro>
 
-<#macro text tags>
-<#compress>
-  <#list tags as tag>
-    <#if tag.kind() == "Text">
-      ${tag.text()}
-    <#else>
-      <#if tag.kind() == "@see">
-        <@seeLink seeTag=tag/>
-      <#else>
-        <#if tag.kind() == "@docRoot">
-          ${base}
-        <#else>
-          <#if tag.kind() == "@code">
-            <span class="code">${tag.text()?html}</span>
-          <#else>
-            <#if tag.kind() == "@literal">
-              ${tag.text()?html}
-            <#else>
-              <#if tag.kind() == "@author2">
-                <span class="author">${tag.text()?html}</span>
-              <#else>
-                <#if (root.printWarning("Unknown Tag kind : " + tag.kind())??)></#if>
-                ${tag.toString()}
-              </#if>
-            </#if>
-          </#if>
-        </#if>
-      </#if>
-    </#if>
-  </#list>
-</#compress>
-</#macro>
+<#macro text tags><#list tags as tag><#if tag.kind() == "Text">${tag.text()}<#else><#if tag.kind() == "@see"><@seeLink seeTag=tag/><#else><#if tag.kind() == "@docRoot">${base}<#else><#if tag.kind() == "@code"><span class="code">${tag.text()?html}</span><#else><#if tag.kind() == "@literal">${tag.text()?html}<#else><#if tag.kind() == "@author2"><span class="author">${tag.text()?html}</span><#else><#if (root.printWarning("Unknown Tag kind : " + tag.kind())??)></#if>${tag.toString()}</#if></#if></#if></#if></#if></#if></#list></#macro>
 
 <#assign priorities={"1":1,"2":2,"3":3,"4":4,"5":5}>
 
 <#macro priorityClass doc lowestClass="">
 <#compress>
   <#assign priority=0>
-  <#if (lowestClass=="") || (lowestClass == doc)>
+  <#if (lowestClass=="") || (lowestClass == doc.containingClass())>
     <#list doc.tags("priority") as tag>
         <#assign priority=(priorities[tag.text()])!0>
     </#list>
@@ -232,7 +201,7 @@
         <#if (doc.isProtected()!false)>
           <#assign priority=3>
         <#else>
-          <#if (lowestClass=="") || (lowestClass == doc)>
+          <#if (lowestClass=="") || (lowestClass == doc.containingClass())>
             <#assign priority=1>
           <#else>
             <#assign priority=2>
@@ -329,7 +298,7 @@
   <@see doc=doc/>
 </#macro>
 
-<#macro fields fields>
+<#macro fields class fields>
 
   <#list fields as field>
 
@@ -377,7 +346,7 @@
   </#if>
 </#macro>
 
-<#macro methods methods useInitials>
+<#macro methods class methods useInitials>
 
   <#list methods as method>
 
@@ -449,6 +418,8 @@
 </#compress>
 </#macro>
 
+
+<#macro accessOnly doc><#if doc.isPublic()>public<#else><#if doc.isProtected()>protected<#else><#if doc.isPrivate()>private<#else>package</#if></#if></#if></#macro>
 
 <#macro access doc>
 <#compress>

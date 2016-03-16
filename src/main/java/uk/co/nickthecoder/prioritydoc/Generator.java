@@ -51,7 +51,7 @@ import freemarker.template.Version;
  * The templates are held as resources in package : uk.co.nickthecoder.prioritydoc.templates.
  * Called from {@link PriorityDoc} to {@link #generate()}.
  * For details of the command line options, see {@link Options}.
- * <img src="{@docRoot} /classDiagram.png"/>
+ * <img src="{@docRoot}/classDiagram.png"/>
  */
 public class Generator
 {
@@ -426,7 +426,7 @@ public class Generator
             File image = new File(this.options.destinationDirectory, diagram.imageFilename);
             URL htmlURL = new URL(destination.toURI().toURL().toString() + "?noheader");
             imageGen.htmlToPng(htmlURL, image);
-            System.out.println("Thumnail : " + diagram.thumbnailFilename);
+            System.out.println("Thumbnail : " + diagram.thumbnailFilename + " " + diagram.thumbnailWidth + "x" + diagram.thumbnailHeight);
             if (diagram.thumbnailFilename != null) {
                 File thumbnail = new File(this.options.destinationDirectory, diagram.thumbnailFilename);
                 imageGen.thumbnail(image, thumbnail, diagram.thumbnailWidth, diagram.thumbnailHeight);
@@ -668,6 +668,10 @@ public class Generator
         result.add("images/protected.png");
         result.add("images/private.png");
         result.add("images/top.png");
+        result.add("images/tiny_private.png");
+        result.add("images/tiny_protected.png");
+        result.add("images/tiny_public.png");
+        result.add("images/tiny_package.png");
 
         return result;
     }

@@ -37,16 +37,14 @@ body.noheader #header { display: none; }
 .box .content { padding: 0.5em; font-size: 80%; }
 
 ul.methods, ul.fields { list-style: none; }
-ul.methods li, ul.fields li { padding-left: 16px; }
-ul.methods li { background: url('method.png') no-repeat left center; }
-ul.methods li.protected { background: url('protectedMethod.png') no-repeat left center; }
-ul.methods li.private { background: url('privateMethod.png') no-repeat left center; }
-ul.methods li.public { background: url('publicMethod.png') no-repeat left center; }
-ul.fields li { background: url('field.png') no-repeat left center; }
-ul.fields li.private { background: url('privateField.png') no-repeat left center; }
-ul.fields li.protected { background: url('protectedField.png') no-repeat left center; }
-ul.fields li.public { background: url('publicField.png') no-repeat left center; }
+ul.methods li, ul.fields li { padding: 1px 0 0 18px; }
 
+li.package { background: url('images/tiny_package.png') no-repeat left center; }
+li.private { background: url('images/tiny_private.png') no-repeat left center; }
+li.protected { background: url('images/tiny_protected.png') no-repeat left center; }
+li.public { background: url('images/tiny_public.png') no-repeat left center; }
+
+.hiddenCount { font-size: 90%; font-style: italic; }
 .static { font-style: italic; }
 
 .content ul { border-bottom: 1px solid #000; margin-bottom: 10px; padding-bottom: 10px; }

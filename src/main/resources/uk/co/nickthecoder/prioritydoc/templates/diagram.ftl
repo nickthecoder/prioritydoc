@@ -24,21 +24,24 @@
         <canvas id="prioritydoc_canvas" width="${diagram.width?c}" height="${diagram.height?c}"></canvas>
 
         <#list diagram.classBoxes as box>
-            <div id="${box.name}" class="box" style="left:${box.x}px;top:${box.y}px;">
+            <div id="${box.name}" class="box" style="left:${box.x?c}px;top:${box.y?c}px;">
                 <div class="title"><a href="<@m.classURL box.classDoc/>">${box.classDoc.name()}</a></div>
                 <div class="content">
                     <#if (box.fields?size > 0)>
                         <ul class="fields">
                         <#list box.fields as field>
-                            <li class="public"><a href="<@m.classURL box.classDoc/>#${field.name()}">${field.name()}</a></li>
+                            <li class="<@m.accessOnly field/>"><a href="<@m.classURL box.classDoc/>#${field.name()}">${field.name()}</a></li>
                         </#list>
                         </ul>
                     </#if>
                     <#if (box.methods?size > 0)>
                         <ul class="methods">
                         <#list box.methods as method>
-                            <li class="public"><a href="<@m.classURL box.classDoc/>#${method.name()}${removeGenerics(method.signature())}">${method.name()}</a></li>
+                            <li class="<@m.accessOnly method/>"><a href="<@m.classURL box.classDoc/>#${method.name()}${removeGenerics(method.signature())}">${method.name()}</a></li>
                         </#list>
+                        <#if (box.missingMethodCount > 0)>
+                            <li class="hiddenCount">(${box.missingMethodCount} hidden)</li>
+                        </#if>
                         </ul>
                     </#if>
                 </div>
