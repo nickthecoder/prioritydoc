@@ -31,6 +31,7 @@ public class Diagram
 
     public int thumbnailHeight = 150;
 
+    
     public void add( ClassBox classBox )
     {
         this.classBoxes.add(classBox);

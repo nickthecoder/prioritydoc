@@ -63,7 +63,11 @@ function drawConnections()
     clear();
     ctx.font = "7pt Verdana";
     <#list diagram.connections as connection>
-        connect( "${connection.connectionType}", "${connection.fromName}", "${connection.toName}", "${connection.fromLabel?html}", "${connection.toLabel?html}" );
+        <#if (connection.connectionType == "generalisation")>
+    connect( "${connection.connectionType}", "${connection.toName}", "${connection.fromName}", "${connection.toLabel?html}", "${connection.fromLabel?html}" );
+        <#else>
+    connect( "${connection.connectionType}", "${connection.fromName}", "${connection.toName}", "${connection.fromLabel?html}", "${connection.toLabel?html}" );
+        </#if>
     </#list>
 }
 </script>

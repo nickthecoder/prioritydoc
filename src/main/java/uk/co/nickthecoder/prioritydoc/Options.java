@@ -19,6 +19,7 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,8 +35,11 @@ import com.sun.javadoc.DocErrorReporter;
  * <li><b>-windowtitle :</b> Synonym for -title.</li>
  * <li><b>-doctitle :</b> Synonym for -title.</li>
  * <li><b>-usecookies :</b> The generated html will use cookies to store the preferred priority level.</li>
- * <li><b>-overwriteresources :</b> Icon images, style sheets and javascript files will overwrite any existing files with the same name.</li>
- * <li><b>-diagram filename :</b> Will generate a class diagram. For details of the file format, see {@link DiagramReader}</li>
+ * <li><b>-overwriteresources :</b> Icon images, style sheets and javascript files will overwrite any existing files
+ * with the same name.</li>
+ * <li><b>-diagram filename :</b> Will generate a class diagram. For details of the file format, see
+ * {@link DiagramReader}</li>
+ * <li><b>-diagrams :</b> The same as -diagram, but takes a semi-colon list of filenames as a single parameter.</li>
  * <li><b>-mainpackage packagename :</b> The main index will include the comment text from the specified package.
  * <li><b>-quiet :</b></li>
  * <li><b>-q : </b>Synonym for -quiet</li>
@@ -77,7 +81,7 @@ public class Options
     /**
      * @see PriorityDoc#optionLength(String)
      */
-    public int optionLength( String option )
+    public int optionLength(String option)
     {
         option = option.toLowerCase();
 
@@ -95,6 +99,8 @@ public class Options
             return 1;
         } else if (option.equals("-diagram")) {
             return 2;
+        } else if (option.equals("-diagrams")) {
+            return 2;
         } else if (option.equals("-mainpackage")) {
             return 2;
         } else if (option.equals("-quiet") || option.equals("-q")) {
@@ -103,7 +109,7 @@ public class Options
         return 0;
     }
 
-    public void read( String[][] options )
+    public void read(String[][] options)
         throws Exception
     {
         this.linkedPackages = new HashMap<String, String>();
@@ -128,6 +134,8 @@ public class Options
                 this.overwriteResources = true;
             } else if (name.equals("-diagram")) {
                 this.diagrams.add(option[1]);
+            } else if (name.equals("-diagrams")) {
+                this.diagrams.addAll(Arrays.asList(option[1].split(";")));
             } else if (name.equals("-mainpackage")) {
                 this.mainPackage = option[1];
             } else if (name.equals("-quiet") || name.equals("-q")) {
@@ -139,27 +147,27 @@ public class Options
     /**
      * @see PriorityDoc#validOptions(String[][],DocErrorReporter)
      */
-    public boolean valid( String[][] options, DocErrorReporter reporter )
+    public boolean valid(String[][] options, DocErrorReporter reporter)
     {
         /*
-        System.out.println("Checking options : ");
-        for (String[] option : options) {
-            for (String str : option) {
-                System.out.println(str);
-            }
-            System.out.println();
-        }
-        */
+         * System.out.println("Checking options : ");
+         * for (String[] option : options) {
+         * for (String str : option) {
+         * System.out.println(str);
+         * }
+         * System.out.println();
+         * }
+         */
         return true;
     }
 
-    protected void link( String url )
+    protected void link(String url)
         throws Exception
     {
         linkOffline(url, url + "/package-list");
     }
 
-    protected void linkOffline( String baseURL, String packageListURL )
+    protected void linkOffline(String baseURL, String packageListURL)
         throws Exception
     {
         if (!baseURL.endsWith("/")) {
@@ -190,7 +198,7 @@ public class Options
      * param packageName The fully qualified package name. Not null or "".
      * return The base url for the javadocs if that package is linked, otherwise null.
      */
-    public String getJavadocsForPackage( String packageName )
+    public String getJavadocsForPackage(String packageName)
     {
         return this.linkedPackages.get(packageName);
     }
