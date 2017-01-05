@@ -389,7 +389,11 @@
             <div class="inner">
               <ul class="plain">
               <#list method.throwsTags() as throwsTag>
-                <li>${throwsTag.exceptionType().name()} : ${throwsTag.exceptionComment()}</li>
+                <#if (throwsTag.exceptionType()??)>
+                    <li>${throwsTag.exceptionType().name()} : ${throwsTag.exceptionComment()}</li>
+                <#else>
+                    <li>(unknown exception) : ${throwsTag.exceptionComment()}</li>
+                </#if>
               </#list>
               </ul>
             </div>
