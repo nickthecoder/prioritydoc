@@ -21,7 +21,7 @@
 <#macro heading pretext="" doc="index">
   <div id="prioritydoc_heading">
     <div class="heading1">
-      <a id="prioritydoc_indexLink" title="Main Index (shift+I)" class="index" href="${base}/index.html"><img alt="index" src="${base}/images/favicon.png"/></a>${pretext}
+      <a id="prioritydoc_indexLink" title="Main Index (shift+I)" class="index" href="${base}/index.html"><img alt="index" src="${base}/images/home.png"/></a>${pretext}
     </div>
 
     <h1 onclick="scrollToElement('#topAnchor')">

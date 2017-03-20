@@ -87,9 +87,9 @@ public class Generator
      * Create a Generator
      * 
      * @param root
-     *        Details of all the classes etc to document. Not null.
+     *            Details of all the classes etc to document. Not null.
      */
-    public Generator( RootDoc root, Options options )
+    public Generator(RootDoc root, Options options)
         throws Exception
     {
         this.root = root;
@@ -118,7 +118,7 @@ public class Generator
     /**
      * Gets the URL of a fixed resource, such as a css style sheet.
      */
-    public URL getResource( String path )
+    public URL getResource(String path)
     {
         return Generator.class.getResource("/uk/co/nickthecoder/prioritydoc/" + path);
     }
@@ -127,7 +127,7 @@ public class Generator
      * @return the absolute directory into which the give package's documentation should be written.
      * @priority 1
      */
-    public File getDirectory( PackageDoc packageDoc )
+    public File getDirectory(PackageDoc packageDoc)
     {
         String path = packageDoc.name().replace('.', File.separatorChar);
         File file = new File(this.options.destinationDirectory, path);
@@ -138,7 +138,7 @@ public class Generator
      * @return the absolute filename where the documentation will be written for the given class/interface/enum etc.
      * @priority 1
      */
-    public File getFile( ClassDoc doc )
+    public File getFile(ClassDoc doc)
     {
         return new File(getDirectory(doc.containingPackage()), doc.name() + this.filenameSuffix);
     }
@@ -198,7 +198,7 @@ public class Generator
         }
     }
 
-    protected void cacheKnownHeirarchy( ClassDoc classDoc, ClassDoc superDoc )
+    protected void cacheKnownHeirarchy(ClassDoc classDoc, ClassDoc superDoc)
     {
         String name = superDoc.name();
 
@@ -229,7 +229,7 @@ public class Generator
         } else {
             this.packages = Arrays.asList(this.root.specifiedPackages());
             if (this.options.mainPackage != null) {
-            	this.mainPackage = this.root.packageNamed(this.options.mainPackage);
+                this.mainPackage = this.root.packageNamed(this.options.mainPackage);
             }
         }
     }
@@ -242,6 +242,7 @@ public class Generator
         throws Exception
     {
         info("Generating index and package-list");
+        info("Overwrite resources ? " + this.options.overwriteResources);
         new File(this.options.destinationDirectory).mkdirs();
 
         for (String resourcePath : getFixedResourcesPaths()) {
@@ -251,6 +252,7 @@ public class Generator
                 URL url = getResource(resourcePath);
                 File parent = destination.getParentFile();
                 parent.mkdirs();
+                info("Copying resource : " + resourcePath);
                 copy(url, destination);
             }
         }
@@ -295,7 +297,7 @@ public class Generator
      * 
      * @priority 2
      * @param packageDocs
-     *        Not null.
+     *            Not null.
      */
     protected void generatePackages()
         throws Exception
@@ -309,9 +311,9 @@ public class Generator
      * Creates an index of all classes/interfaces/enums within the package.
      * 
      * @param packageDoc
-     *        Not null.
+     *            Not null.
      */
-    protected void generatePackage( PackageDoc packageDoc )
+    protected void generatePackage(PackageDoc packageDoc)
         throws Exception
     {
         info("Generating package : " + packageDoc.name());
@@ -341,7 +343,7 @@ public class Generator
      * Creates documentation for all classes.
      * 
      * @param classDocs
-     *        Not null, may be empty.
+     *            Not null, may be empty.
      * @priority 2
      */
     protected void generateClasses()
@@ -356,10 +358,10 @@ public class Generator
      * Creates the documentation for the given class.
      * 
      * @param classDoc
-     *        Not null.
+     *            Not null.
      * @priority 1
      */
-    public void generateClass( ClassDoc classDoc )
+    public void generateClass(ClassDoc classDoc)
         throws Exception
     {
         info("Generating class/interface : " + classDoc.name());
@@ -394,7 +396,7 @@ public class Generator
         }
     }
 
-    protected void generateDiagram( String filename )
+    protected void generateDiagram(String filename)
         throws Exception
     {
         info("Generating diagram : " + filename);
@@ -426,7 +428,8 @@ public class Generator
             File image = new File(this.options.destinationDirectory, diagram.imageFilename);
             URL htmlURL = new URL(destination.toURI().toURL().toString() + "?noheader");
             imageGen.htmlToPng(htmlURL, image);
-            System.out.println("Thumbnail : " + diagram.thumbnailFilename + " " + diagram.thumbnailWidth + "x" + diagram.thumbnailHeight);
+            System.out.println("Thumbnail : " + diagram.thumbnailFilename + " " + diagram.thumbnailWidth + "x"
+                + diagram.thumbnailHeight);
             if (diagram.thumbnailFilename != null) {
                 File thumbnail = new File(this.options.destinationDirectory, diagram.thumbnailFilename);
                 imageGen.thumbnail(image, thumbnail, diagram.thumbnailWidth, diagram.thumbnailHeight);
@@ -434,7 +437,7 @@ public class Generator
         }
     }
 
-    protected ProgramElementDoc[] sort( ProgramElementDoc[] docs )
+    protected ProgramElementDoc[] sort(ProgramElementDoc[] docs)
     {
         Arrays.sort(docs, NameComparator.instance);
         return docs;
@@ -447,7 +450,7 @@ public class Generator
      * Combines the methods from a class with those from its super classes (except Object).
      * 
      * @param classDoc
-     *        , the sub-class which has all of its methods combined into a list. Not null.
+     *            , the sub-class which has all of its methods combined into a list. Not null.
      * 
      * @return A list of MethodDocs sorted by their name.
      * 
@@ -455,7 +458,7 @@ public class Generator
      *         (excluding Object) have methods.
      * @priority 3
      */
-    protected void combineMethods( Map<String, Object> root, ClassDoc currentClassDoc )
+    protected void combineMethods(Map<String, Object> root, ClassDoc currentClassDoc)
     {
         Map<String, List<MethodDoc>> methodsByName = new HashMap<String, List<MethodDoc>>();
         Map<String, List<MethodDoc>> staticMethodsByName = new HashMap<String, List<MethodDoc>>();
@@ -478,8 +481,9 @@ public class Generator
         root.put("staticMethods", staticMethodDocs);
     }
 
-    protected void combineMethods2( Map<String, List<MethodDoc>> methodsByName, Map<String, List<MethodDoc>> staticMethodsByName,
-        ClassDoc currentClassDoc, boolean isSuper )
+    protected void combineMethods2(Map<String, List<MethodDoc>> methodsByName,
+        Map<String, List<MethodDoc>> staticMethodsByName,
+        ClassDoc currentClassDoc, boolean isSuper)
     {
         // Exit the recursion when we get to the top of the hierarchy.
         if ((currentClassDoc == null) || (currentClassDoc.qualifiedName().equals("java.lang.Object"))) {
@@ -516,12 +520,12 @@ public class Generator
      * is already in the collection.
      * 
      * @param methodsByName
-     *        , a map of lists of MethodDocs keyed on the method names.
+     *            , a map of lists of MethodDocs keyed on the method names.
      * @param item
-     *        the item which may be added into the collection.
+     *            the item which may be added into the collection.
      * @priority 4
      */
-    public void addMethod( Map<String, List<MethodDoc>> methodsByName, MethodDoc item )
+    public void addMethod(Map<String, List<MethodDoc>> methodsByName, MethodDoc item)
     {
         List<MethodDoc> list;
         if (!methodsByName.containsKey(item.name())) {
@@ -542,7 +546,7 @@ public class Generator
         }
     }
 
-    protected boolean parametersMatch( Parameter[] p1s, Parameter[] p2s )
+    protected boolean parametersMatch(Parameter[] p1s, Parameter[] p2s)
     {
         if (p1s.length != p2s.length) {
             return false;
@@ -564,7 +568,7 @@ public class Generator
      * Combines the methods from a class with those from its super classes (except Object).
      * 
      * @param classDoc
-     *        , the sub-class which has all of its methods combined into a list. Not null.
+     *            , the sub-class which has all of its methods combined into a list. Not null.
      * 
      * @return A list of MethodDocs sorted by their name.
      * 
@@ -572,7 +576,7 @@ public class Generator
      *         (excluding Object) have methods.
      * @priority 3
      */
-    protected void combineFields( Map<String, Object> root, ClassDoc classDoc )
+    protected void combineFields(Map<String, Object> root, ClassDoc classDoc)
     {
         Set<FieldDoc> fields = new TreeSet<FieldDoc>(NameComparator.instance);
         Set<FieldDoc> staticFields = new TreeSet<FieldDoc>(NameComparator.instance);
@@ -605,7 +609,7 @@ public class Generator
      * 
      * @priority 3
      */
-    protected void copy( URL source, File destination )
+    protected void copy(URL source, File destination)
         throws Exception
     {
         FileOutputStream out = null;
@@ -672,6 +676,7 @@ public class Generator
         result.add("images/tiny_protected.png");
         result.add("images/tiny_public.png");
         result.add("images/tiny_package.png");
+        result.add("images/home.png");
 
         return result;
     }
@@ -700,7 +705,7 @@ public class Generator
         return map;
     }
 
-    protected void generate( String templateName, Map<String, Object> modelRoot, File destination )
+    protected void generate(String templateName, Map<String, Object> modelRoot, File destination)
         throws Exception
     {
 
@@ -714,7 +719,7 @@ public class Generator
         }
     }
 
-    protected void info( String text )
+    protected void info(String text)
     {
         if (!this.options.quiet) {
             System.out.println(text);
@@ -731,7 +736,7 @@ public class Generator
         /**
          * Compares just on the program element's name.
          */
-        public int compare( ProgramElementDoc a, ProgramElementDoc b )
+        public int compare(ProgramElementDoc a, ProgramElementDoc b)
         {
             return a.name().compareTo(b.name());
         }

@@ -30,8 +30,8 @@ task testjavadoc(type: Javadoc) {
     options.docletpath = configurations.apidoc.files.asType(List)
 
     options.doclet = "uk.co.nickthecoder.prioritydoc.PriorityDoc"
-    options.addStringOption( "overwriteresources" )
-    options.addStringOption( "usecookies" )
+    options.addStringOption( "overwriteresources", "true" )
+    options.addStringOption( "usecookies", "true" )
     options.addStringOption( "title", "PriorityDoc - Testing" )
     options.addStringOption( "link", "http://docs.oracle.com/javase/7/docs/api/")
     options.addStringOption( "link", "http://docs.oracle.com/javase/7/docs/jdk/api/javadoc/doclet/" )
@@ -48,8 +48,8 @@ javadoc {
     options.addStringOption( "diagram", "src/docs/classDiagram.xml" )
     
     options.doclet = "uk.co.nickthecoder.prioritydoc.PriorityDoc"
-    options.addStringOption( "overwriteresources" )
-    options.addStringOption( "usecookies" )
+    options.addStringOption( "overwriteresources", "true" )
+    options.addStringOption( "usecookies", "true" )
     options.addStringOption( "title", "PriorityDoc" )
     options.addStringOption( "link", "http://docs.oracle.com/javase/7/docs/api/")
     options.addStringOption( "link", "http://docs.oracle.com/javase/7/docs/jdk/api/javadoc/doclet/" )

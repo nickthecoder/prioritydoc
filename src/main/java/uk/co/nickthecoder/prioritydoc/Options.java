@@ -68,7 +68,7 @@ public class Options
     public boolean useCookies = false;
 
     /**
-     * Should resources (such as .cc and .js files) overwrite existing files?
+     * Should resources (such as .png, .ccs and .js files) overwrite existing files?
      */
     public boolean overwriteResources = false;
 
@@ -94,9 +94,9 @@ public class Options
         } else if (option.equals("-title") || option.equals("-windowtitle") || (option.equals("-doctitle"))) {
             return 2;
         } else if (option.equals("-usecookies")) {
-            return 1;
+            return 2;
         } else if (option.equals("-overwriteresources")) {
-            return 1;
+            return 2;
         } else if (option.equals("-diagram")) {
             return 2;
         } else if (option.equals("-diagrams")) {
@@ -104,6 +104,7 @@ public class Options
         } else if (option.equals("-mainpackage")) {
             return 2;
         } else if (option.equals("-quiet") || option.equals("-q")) {
+            quiet = true;
             return 1;
         }
         return 0;
@@ -115,6 +116,7 @@ public class Options
         this.linkedPackages = new HashMap<String, String>();
 
         for (String[] option : options) {
+
             String name = option[0].toLowerCase();
             if (name == null) {
                 continue;
@@ -129,9 +131,9 @@ public class Options
             } else if (name.equals("-title") || name.equals("-windowtitle") || name.equals("-doctitle")) {
                 this.title = option[1];
             } else if (name.equals("-usecookies")) {
-                this.useCookies = true;
+                this.useCookies = Boolean.parseBoolean(option[1]);
             } else if (name.equals("-overwriteresources")) {
-                this.overwriteResources = true;
+                this.overwriteResources = Boolean.parseBoolean(option[1]);
             } else if (name.equals("-diagram")) {
                 this.diagrams.add(option[1]);
             } else if (name.equals("-diagrams")) {
@@ -140,6 +142,11 @@ public class Options
                 this.mainPackage = option[1];
             } else if (name.equals("-quiet") || name.equals("-q")) {
                 this.quiet = true;
+            } else if (name.equals("-doclet") || name.equals("-docletpath") ||
+                name.equals("-doctitle") || name.equals("-classpath") || name.equals("-verbose")) {
+                // Ignore.
+            } else {
+                System.err.println("Unknown option " + option[0]);
             }
         }
     }

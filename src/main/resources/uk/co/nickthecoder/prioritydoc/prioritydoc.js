@@ -50,6 +50,7 @@ function onKeydown(e)
     }
 
     if ( (code > 64) && (code < 91) ) {
+      showByName();
       scrollToElement('#prioritydoc_initial_' + letter );
       return false;
     }
