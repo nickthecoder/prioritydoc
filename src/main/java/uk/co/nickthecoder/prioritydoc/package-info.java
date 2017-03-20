@@ -9,6 +9,9 @@
  * <p>
  * For details of the command line options, see {@link uk.co.nickthecoder.prioritydoc.Options}.
  * </p>
+ * <p>
+ * Visit the <a href="http://giddyserv/iwiki/view/software/PriorityDoc">PriorityDoc Website</a> for more info.
+ * </p>
  */
 package uk.co.nickthecoder.prioritydoc;
 

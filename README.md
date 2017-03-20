@@ -9,4 +9,18 @@ Traditional Javadocs are just too cumbersome to use. PriorityDoc has neat featur
 -  Static fields and methods are separate from their non-static cousins.
 -  Designed to be easy to scan through.
 
+Build
+=====
 
+gradle build
+gradle install  # Puts the jar in a local cache for other gradle projects to pick up.
+gradle javadoc
+
+I use an rsync script, to push the javadocs to my public website :
+
+./rsyncdocs.sh
+
+More Info
+=========
+
+For more information, visit the [PriorityDoc website](http://giddyserv/iwiki/view/software/PriorityDoc).
